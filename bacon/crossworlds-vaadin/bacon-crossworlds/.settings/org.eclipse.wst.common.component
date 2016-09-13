@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="bacon-crossworlds">
+    <wb-module deploy-name="bacon-web-app">
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/.apt_generated"/>
-        <property name="context-root" value="bacon-crossworlds"/>
-        <property name="java-output-path" value="/bacon-crossworlds/target/classes"/>
+        <property name="java-output-path" value="/bacon-web-app/target/classes"/>
         <property name="component.exclusion.patterns" value="WEB-INF/classes/VAADIN/widgetsets/WEB-INF/**"/>
+        <property name="context-root" value="bacon-web-app"/>
     </wb-module>
 </project-modules>

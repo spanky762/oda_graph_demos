@@ -13,9 +13,9 @@
 	</appender>
 
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
-		<file>xwslack.log</file>
+		<file>logs/bacon.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>c:/logs/sizeAndTimeBasedlogFile.%d{yyyy-MM-dd-HH-mm}.%i.log
+			<fileNamePattern>logs/bacon.%d{yyyy-MM-dd}.%i.log
 			</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -23,7 +23,7 @@
 			</timeBasedFileNamingAndTriggeringPolicy>
 		</rollingPolicy>
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%file:%line]  - %msg%n
 			</pattern>
 		</encoder>
 	</appender>
@@ -33,6 +33,7 @@
 		<discardingThreshold>0</discardingThreshold>
 		<appender-ref ref="FILE">
 		</appender-ref>
+		<includeCallerData>true</includeCallerData>
 	</appender>
 
 	<root level="debug">

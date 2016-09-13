@@ -26,6 +26,8 @@
 //$v-friendly-color: #2c9720;
 //$v-error-indicator-color: #ed473b;
 
+$intro-panel-image: "img/Kevin_Bacon_SDCC_2014.jpg" !default;
+
 // For more information, see: https://vaadin.com/book/-/page/themes.valo.html
 // Example variants can be copy/pasted from https://vaadin.com/wiki/-/wiki/Main/Valo+Examples
 
@@ -34,5 +36,30 @@
 @mixin bacontheme {
   @include valo;
 
-  // Insert your own theme rules here
+  .introPanel {
+  	background-color: #000;
+  	min-height: 500px;
+  	
+	 @if $intro-panel-image {
+      background-image: url(#{$intro-panel-image});
+      background-repeat: no-repeat;
+      background-position: right 20px center;
+    }
+    
+    color: #bcbec0;
+  }
+  
+  .introPanel .h2 {
+  	color: #fff;
+  	font-weight: bold;
+  }
+  
+  .introPanel .v-label {
+  	margin-bottom: 10px;
+  }
+  
+  .mini {
+  	font-size: 75%;
+  	text-align:right;
+  }
 }
