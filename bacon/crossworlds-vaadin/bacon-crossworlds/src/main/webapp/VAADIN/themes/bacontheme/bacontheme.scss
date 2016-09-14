@@ -38,7 +38,7 @@ $intro-panel-image: "img/Kevin_Bacon_SDCC_2014.jpg" !default;
 
   .introPanel {
   	background-color: #000;
-  	min-height: 500px;
+  	min-height: 450px;
   	
 	 @if $intro-panel-image {
       background-image: url(#{$intro-panel-image});
@@ -62,4 +62,28 @@ $intro-panel-image: "img/Kevin_Bacon_SDCC_2014.jpg" !default;
   	font-size: 75%;
   	text-align:right;
   }
+  
+  .mainBody {
+  	min-height: 500px;
+  }
+  
+  .bodyCell {
+  	background-color: #ece7e8;
+  	color: #000;
+  }
+  
+  .bodyCell .h3 {
+  	color: #bcbec0;
+  }
+  
+  .numberCell {
+  	font-size: 3em;
+  }
+  
+  .numberCell .v-label {
+  	text-align: center;
+  	margin: 5px;
+  }
+  
+
 }

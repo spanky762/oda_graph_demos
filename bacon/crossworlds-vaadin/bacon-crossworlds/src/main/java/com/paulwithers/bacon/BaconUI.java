@@ -12,12 +12,14 @@ import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.shared.ui.combobox.FilteringMode;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
@@ -43,7 +45,7 @@ public class BaconUI extends UI {
 
 		getPage().setTitle("Six Degrees of Kevin Bacon");
 		final CssLayout layout = new CssLayout();
-		layout.setSizeFull();
+		layout.setSizeUndefined();
 
 		final VerticalLayout topBar = new VerticalLayout();
 		topBar.setSpacing(true);
@@ -81,18 +83,91 @@ public class BaconUI extends UI {
 			name.addItem(actor.getName());
 		}
 
+		VerticalLayout mainBody = new VerticalLayout();
+		mainBody.setStyleName("mainBody");
+		mainBody.setMargin(true);
+		mainBody.setSpacing(true);
+		HorizontalLayout row = new HorizontalLayout();
+		row.setSizeFull();
+		row.setSpacing(true);
+		VerticalLayout numberCell = new VerticalLayout();
+		numberCell.setStyleName("bodyCell numberCell");
+		numberCell.setMargin(true);
+		numberCell.setSpacing(true);
+		Label numberHeading = new Label("Bacon Number");
+		numberHeading.setStyleName(ValoTheme.LABEL_H3);
+		Label numberDetail = new Label("");
+		numberDetail.setStyleName(ValoTheme.LABEL_H1);
+		numberDetail.setStyleName(ValoTheme.LABEL_BOLD);
+		numberCell.addComponents(numberHeading, numberDetail);
+		VerticalLayout traversalCell = new VerticalLayout();
+		traversalCell.setStyleName("bodyCell");
+		traversalCell.setHeight(100.0f, Unit.PERCENTAGE);
+		traversalCell.setMargin(true);
+		traversalCell.setSpacing(true);
+		Label detailsHeader = new Label("Best Route");
+		detailsHeader.setStyleName(ValoTheme.LABEL_H4);
+		Label details = new Label("");
+		details.setContentMode(ContentMode.HTML);
+		details.setStyleName(ValoTheme.LABEL_H4);
+		details.setStyleName(ValoTheme.LABEL_COLORED);
+		details.setHeightUndefined();
+		traversalCell.addComponents(detailsHeader, details);
+		row.addComponents(numberCell, traversalCell);
+		row.setExpandRatio(numberCell, 1.0f);
+		row.setExpandRatio(traversalCell, 2.0f);
+		mainBody.addComponent(row);
+		mainBody.setVisible(false);
+
 		Button button = new Button("Find Number");
 		button.addClickListener(e -> {
-			layout.addComponent(new Label("Thanks " + name.getValue() + ", it works!"));
+			loadDetails((String) name.getValue(), mainBody, numberDetail, details);
 		});
 
 		selector.addComponents(name, button);
 		selector.setComponentAlignment(button, Alignment.BOTTOM_RIGHT);
 		introPanel.addComponents(intro, intro2, mini, selector);
 		mainPanel.addComponents(heading, introPanel);
-		layout.addComponents(topBar, mainPanel);
+		layout.addComponents(topBar, mainPanel, mainBody);
 
 		setContent(layout);
+	}
+
+	public void loadDetails(String name, VerticalLayout mainBody, Label numberDetail, Label details) {
+		Actor actor = GraphBootstrapper.getInstance().getActor(name);
+		if (null == actor) {
+			numberDetail.setValue("");
+			details.setValue("");
+			mainBody.setVisible(false);
+			Notification.show("Actor " + name + "could not be found!");
+		} else {
+			int value = actor.getDistanceToKevinBacon();
+			numberDetail.setValue(Integer.toString(value));
+			StringBuilder sb = new StringBuilder();
+			if (value > 0) {
+				boolean isActor = true;
+				int level = 0;
+				for (String elem : actor.getPathToKevinBacon()) {
+					if (level > 0) {
+						sb.append("<br/>");
+						for (int x = 0; x < level; x++) {
+							sb.append("&nbsp;&nbsp;");
+						}
+						sb.append("->");
+					}
+					sb.append(elem);
+					if (isActor) {
+						sb.append(" (Actor)");
+					} else {
+						sb.append(" (Movie)");
+					}
+					isActor = !isActor;
+					level++;
+				}
+			}
+			details.setValue(sb.toString());
+			mainBody.setVisible(true);
+		}
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "UIServlet", asyncSupported = true)

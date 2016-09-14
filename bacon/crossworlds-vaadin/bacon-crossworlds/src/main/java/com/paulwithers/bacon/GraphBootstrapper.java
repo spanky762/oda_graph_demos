@@ -71,8 +71,12 @@ public class GraphBootstrapper extends XWorldsApplicationListener {
 		return GRAPH_INSTANCE;
 	}
 
-	public synchronized Iterable<Actor> getActors() {
+	public Iterable<Actor> getActors() {
 		return getGraphInstance().getVertices(null, null, Actor.class);
+	}
+
+	public Actor getActor(String name) {
+		return (Actor) getGraphInstance().getVertex(name, Actor.class);
 	}
 
 	protected synchronized FramedGraph<DGraph> initGraph() {
