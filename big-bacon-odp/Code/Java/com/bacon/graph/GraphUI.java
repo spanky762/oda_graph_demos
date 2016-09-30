@@ -89,28 +89,29 @@ public class GraphUI implements Serializable {
 			if (null == getActor()) {
 				return "";
 			}
-			int value = getActor().getDistanceToKevinBacon();
 			StringBuilder sb = new StringBuilder();
-			if (value > 0) {
-				boolean isActor = true;
-				int level = 0;
-				for (String elem : getActor().getPathToKevinBacon()) {
-					if (level > 0) {
-						sb.append("<br/>");
-						for (int x = 0; x < level; x++) {
-							sb.append("&nbsp;&nbsp;");
-						}
-						sb.append("->");
+			boolean isActor = true;
+			int level = 0;
+			ArrayList<String> path = getActor().getPathToKevinBacon();
+			if (path.isEmpty()) {
+				getActor().getDistanceToKevinBacon();
+			}
+			for (String elem : path) {
+				if (level > 0) {
+					sb.append("<br/>");
+					for (int x = 0; x < level; x++) {
+						sb.append("&nbsp;&nbsp;");
 					}
-					sb.append(elem);
-					if (isActor) {
-						sb.append(" (Actor)");
-					} else {
-						sb.append(" (Movie)");
-					}
-					isActor = !isActor;
-					level++;
+					sb.append("->");
 				}
+				sb.append(elem);
+				if (isActor) {
+					sb.append(" (Actor)");
+				} else {
+					sb.append(" (Movie)");
+				}
+				isActor = !isActor;
+				level++;
 			}
 			return sb.toString();
 		}

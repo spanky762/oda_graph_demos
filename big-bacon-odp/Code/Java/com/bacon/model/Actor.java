@@ -102,6 +102,10 @@ public interface Actor extends VertexFrame {
 
 		@Override
 		public int getDistanceToKevinBacon() {
+			UIViewRootEx2 view = (UIViewRootEx2) ExtLibUtil.resolveVariable("view");
+			if (!view.isRenderingPhase()) {
+				return -1;
+			}
 			return getDistanceTo("Kevin Bacon", 12);
 		}
 
@@ -133,11 +137,8 @@ public interface Actor extends VertexFrame {
 
 		@Override
 		public int getDistanceTo(String actorName, int maxDepth) {
-			UIViewRootEx2 view = (UIViewRootEx2) ExtLibUtil.resolveVariable("view");
-			if (!view.isRenderingPhase()) {
-				return -1;
-			}
 
+			System.out.println("Starting...");
 			List<Actor> curActors = new ArrayList<Actor>();
 			List<String> checkedActors = new ArrayList<String>();
 			Map<Integer, List<Actor>> levelBreakdown = new HashMap<Integer, List<Actor>>();
@@ -153,6 +154,7 @@ public interface Actor extends VertexFrame {
 					for (Actor costar : costars) {
 						if (!checkedActors.contains(costar.getName())) {
 							if (costar.getName().equals(actorName)) {
+								System.out.println("We have bacon!");
 								// We have a route to Kevin Bacon!! Now go
 								// backwards to get the path
 								path_ = new ArrayList<String>();
@@ -187,6 +189,7 @@ public interface Actor extends VertexFrame {
 											path_.add(movie.getTitle() + " - " + movie.getYear());
 											path_.add(getName());
 											System.out.println(0 + ": " + getName() + " also in " + movie.getTitle());
+											break;
 										}
 									}
 								}
