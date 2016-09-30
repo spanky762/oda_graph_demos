@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="80257F8E00417474" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="202" sequence="85" unid="CC7F75A41BDD8B198025802E0056854F">
+<created><datetime dst="true">20160914T164502,23+01</datetime></created>
+<modified><datetime dst="true">20160930T114953,61+01</datetime></modified>
+<revised><datetime dst="true">20160930T114953,60+01</datetime></revised>
+<lastaccessed><datetime dst="true">20160930T114953,61+01</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20160914T164502,24+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Paul Withers/O=Intec</name><name>CN=admin/O=Intec-PW</name><name>CN=Paul Withers/O=Intec</name></updatedby>
+<wassignedby><name>CN=Paul Withers/O=Intec</name></wassignedby>
+<item name="$Flags"><text>34567Cg~[</text></item>
+<item name="$TITLE"><text>com/bacon/graph/GraphUI.java</text></item>
+
+
+
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>com/bacon/graph/GraphUI.java</text></item>
+
+</note>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="80257F8E00417474" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="18a" sequence="2" unid="7BC95390E95D92E780257F8E0042B957">
+<created><datetime dst="true">20160407T130848,23+01</datetime></created>
+<modified><datetime dst="true">20160407T130848,40+01</datetime></modified>
+<revised><datetime dst="true">20160407T130848,39+01</datetime></revised>
+<lastaccessed><datetime dst="true">20160407T130848,40+01</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20160407T130848,37+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=admin/O=Intec-PW</name></updatedby>
+<wassignedby><name>CN=admin/O=Intec-PW</name></wassignedby>
+<item name="$Flags"><text>34567Cg~[</text></item>
+<item name="$TITLE"><text>au/com/bytecode/opencsv/package.html</text></item>
+<item name="$MimeType"><text>text/html</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>au/com/bytecode/opencsv/package.html</text></item></note>
