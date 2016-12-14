@@ -106,9 +106,9 @@ public class GraphUI implements Serializable {
 				}
 				sb.append(elem);
 				if (isActor) {
-					sb.append(" (Actor)");
+					sb.append(" <b>Actor</b>");
 				} else {
-					sb.append(" (Movie)");
+					sb.append(" <b>Movie</b>");
 				}
 				isActor = !isActor;
 				level++;

@@ -12,8 +12,6 @@ import org.openntf.domino.graph2.annotations.IncidenceUnique;
 import org.openntf.domino.graph2.annotations.TypedProperty;
 
 import com.bacon.model.Movie.StarsIn;
-import com.ibm.xsp.component.UIViewRootEx2;
-import com.ibm.xsp.extlib.util.ExtLibUtil;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.frames.VertexFrame;
@@ -102,19 +100,11 @@ public interface Actor extends VertexFrame {
 
 		@Override
 		public int getDistanceToKevinBacon() {
-			UIViewRootEx2 view = (UIViewRootEx2) ExtLibUtil.resolveVariable("view");
-			if (!view.isRenderingPhase()) {
-				return -1;
-			}
 			return getDistanceTo("Kevin Bacon", 12);
 		}
 
 		@Override
 		public int getDistanceTo(String actorName, int targetDepth, int curDepth) {
-			UIViewRootEx2 view = (UIViewRootEx2) ExtLibUtil.resolveVariable("view");
-			if (!view.isRenderingPhase()) {
-				return -1;
-			}
 			List<Actor> costars = getCostars();
 			if (targetDepth > curDepth) {
 				for (Actor costar : costars) {
@@ -163,7 +153,8 @@ public interface Actor extends VertexFrame {
 								for (Movie movie : intActor.getMovies()) {
 									for (Actor checks : movie.getActors()) {
 										if (costar.equals(checks)) {
-											path_.add(movie.getTitle() + " - " + movie.getYear());
+											path_.add(movie.getTitle() + " - " + movie.getYear()
+													+ getActorSummary(intActor, costar, movie));
 											path_.add(intActor.getName());
 											System.out.println(i - 1 + ": " + intActor.getName() + " also in "
 													+ movie.getTitle());
@@ -186,7 +177,8 @@ public interface Actor extends VertexFrame {
 								for (Movie movie : getMovies()) {
 									for (Actor checks : movie.getActors()) {
 										if (nextLevelActor.equals(checks)) {
-											path_.add(movie.getTitle() + " - " + movie.getYear());
+											path_.add(movie.getTitle() + " - " + movie.getYear()
+													+ getActorSummary(this, nextLevelActor, movie));
 											path_.add(getName());
 											System.out.println(0 + ": " + getName() + " also in " + movie.getTitle());
 											break;
@@ -231,7 +223,8 @@ public interface Actor extends VertexFrame {
 				for (Movie movie : proc.getMovies()) {
 					for (Actor checks : movie.getActors()) {
 						if (checks.equals(nextLevelActor)) {
-							path_.add(movie.getTitle() + " - " + movie.getYear());
+							path_.add(movie.getTitle() + " - " + movie.getYear()
+									+ getActorSummary(proc, nextLevelActor, movie));
 							path_.add(proc.getName());
 							System.out.println(x + ": " + proc.getName() + " also in " + movie.getTitle());
 							return proc;
@@ -240,6 +233,31 @@ public interface Actor extends VertexFrame {
 				}
 			}
 			return null;
+		}
+
+		private String getActorSummary(Actor actor1, Actor actor2, Movie movie) {
+			String summary = " (" + actor1.getName() + " - ";
+			for (StarsIn stars : actor1.getStarsIns()) {
+				if (stars.getMovie().equals(movie)) {
+					if (null != stars.getCharacter()) {
+						summary += stars.getCharacter();
+					} else {
+						summary += "no character stored";
+					}
+				}
+			}
+			summary += ", " + actor2.getName() + " - ";
+			for (StarsIn stars : actor2.getStarsIns()) {
+				if (stars.getMovie().equals(movie)) {
+					if (null != stars.getCharacter()) {
+						summary += stars.getCharacter();
+					} else {
+						summary += "no character stored";
+					}
+				}
+			}
+			summary += ")";
+			return summary;
 		}
 
 	}
