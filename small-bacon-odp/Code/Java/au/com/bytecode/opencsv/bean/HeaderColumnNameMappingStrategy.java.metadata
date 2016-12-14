@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="8025808000350343" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="146" sequence="9" unid="CBF520905A9F8F5480257F8E0042B934">
+<created><datetime dst="true">20160407T130847,88+01</datetime></created>
+<modified><datetime>20161205T093903,21+00</datetime></modified>
+<revised><datetime dst="true">20160921T172736,09+01</datetime></revised>
+<lastaccessed><datetime>20161205T093903,21+00</datetime></lastaccessed>
+<addedtofile><datetime>20161205T093903,21+00</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=admin/O=Intec-PW</name><name>CN=Paul Withers/O=Intec</name></updatedby>
+<wassignedby><name>CN=Paul Withers/O=Intec</name></wassignedby>
+<item name="$Flags"><text>34567Cg~[</text></item>
+<item name="$TITLE"><text>au/com/bytecode/opencsv/bean/HeaderColumnNameMappingStrategy.java</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>au/com/bytecode/opencsv/bean/HeaderColumnNameMappingStrategy.java</text></item>
+
+
+</note>

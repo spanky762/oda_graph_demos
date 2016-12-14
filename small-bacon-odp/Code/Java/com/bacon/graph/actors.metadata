@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="8025808000350343" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="1f2" sequence="2" unid="5F1C1B2C80542280802580800035AC0E">
+<created><datetime>20161205T094614,54+00</datetime></created>
+<modified><datetime>20161205T094614,58+00</datetime></modified>
+<revised><datetime>20161205T094614,57+00</datetime></revised>
+<lastaccessed><datetime>20161205T094614,58+00</datetime></lastaccessed>
+<addedtofile><datetime>20161205T094614,55+00</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Paul Withers/O=Intec</name></updatedby>
+<wassignedby><name>CN=Paul Withers/O=Intec</name></wassignedby>
+<item name="$Flags"><text>34567Cg~[</text></item>
+<item name="$TITLE"><text>com/bacon/graph/actors</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+
+
+
+
+
+
+
+<item name="$FileNames" sign="true"><text>com/bacon/graph/actors</text></item></note>

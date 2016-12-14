@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xe="http://www.ibm.com/xsp/coreex">
+
+	<xp:this.resources>
+		<xp:styleSheet href="/application.css"></xp:styleSheet>
+		<xp:dojoModule name="dojox.widget.Standby"></xp:dojoModule>
+	</xp:this.resources>
+	<xe:applicationLayout id="applicationLayout1">
+		<xp:panel id="mainBody">
+			<xp:this.data>
+				<xe:objectData var="graph"
+					createObject="#{javascript:return new com.bacon.graph.GraphUI();}"
+					ignoreRequestParams="true">
+				</xe:objectData>
+			</xp:this.data>
+			<xp:panel styleClass="topPanel">
+				<xp:button style="float:right" value="Reload Data" id="button2">
+					<xp:eventHandler event="onclick" submit="true" immediate="true"
+						refreshMode="complete">
+						<xp:this.action><![CDATA[#{javascript:graph.loadBigData()}]]></xp:this.action>
+					</xp:eventHandler>
+				</xp:button>
+				<xp:text value="Six Degrees of Kevin Bacon" id="label1" tagName="h2">
+				</xp:text>
+				<xp:panel styleClass="col-md-9">
+					<xp:text
+						value="Bacon is the subject of the trivia game titled Six Degrees of Kevin Bacon, 
+				based on the idea that, due to his prolific screen career covering a diverse range of genres, 
+				any Hollywood actor can be linked to another in a handful of steps based on their association with Bacon."
+						styleClass="info">
+					</xp:text>
+					<xp:br></xp:br>
+					<xp:br></xp:br>
+					<xp:text
+						value="The Bacon number of an actor or actress is the number of degrees of separation he or she has from Bacon, 
+				as defined by the game. This is an application of the Erdős number concept to the Hollywood movie industry. 
+				The higher the Bacon number, the farther away from Kevin Bacon the actor is."
+						styleClass="info">
+					</xp:text>
+					<xp:div style="text-align:right">
+						<xp:text value="Source: Wikipedia" styleClass="mini"></xp:text>
+					</xp:div>
+					<xp:br></xp:br>
+					<xp:label value="Choose an actor" for="comboBox1"></xp:label>
+					<xp:br></xp:br>
+					<xp:div styleClass="col-md-6">
+						<xp:inputText id="inputText1" value="#{graph.selectedActor}">
+							<xp:typeAhead mode="partial" minChars="3" var="key"
+								valueList="#{javascript:graph.getActorsWithKey(key)}"
+								valueListSeparator=",">
+							</xp:typeAhead>
+						</xp:inputText>
+					</xp:div>
+					<xp:div styleClass="col-md-3">
+						<xp:button value="Find Number" id="button1">
+							<xp:eventHandler event="onclick" submit="true"
+								refreshMode="partial" refreshId="mainBody">
+							</xp:eventHandler>
+						</xp:button>
+					</xp:div>
+				</xp:panel>
+			</xp:panel>
+			<xp:br></xp:br>
+
+			<xp:div styleClass="col-sm-3 bodyCell numberCell" style="min-height:200px">
+				<xp:text styleClass="h3" value="Bacon Number"></xp:text>
+				<xp:br></xp:br>
+				<xp:text value="#{graph.actor.distanceToKevinBacon}">
+				</xp:text>
+			</xp:div>
+			<xp:div styleClass="col-sm-8 bodyCell" style="float:right">
+				<xp:text value="BEST ROUTE" style="font-weight:bold"></xp:text>
+				<xp:br></xp:br>
+				<xp:text value="#{javascript:graph.getActorPath()}" styleClass="route"
+					escape="false">
+				</xp:text>
+			</xp:div>
+		</xp:panel>
+		<xe:this.configuration>
+			<xe:simpleResponsiveConfiguration
+				fixedNavbar="fixed-top" navbarText="${javascript:database.getTitle()}">
+			</xe:simpleResponsiveConfiguration>
+		</xe:this.configuration>
+	</xe:applicationLayout>
+
+	<xp:scriptBlock id="scriptBlock1">
+		<xp:this.value><![CDATA[
+    //Standby Dialog V.3.2
+    //Code Compile by Fredrik Norling www.xpagedeveloper.com
+    //used with permission from the authors of the original code
+    //http://dontpanic82.blogspot.com/2010/01/xpages-hijackingpublishing-partial.html
+    //http://lotusnotus.com/lotusnotus_en.nsf/dx/xpages-tip-a-modal-waiting-dialog-for-background-processes..htm
+ var init_hijackAndPublishPartialRefresh=false;
+if(typeof hijackAndPublishPartialRefresh != 'function')
+ { 
+ //Load only once check
+ init_hijackAndPublishPartialRefresh=true;
+    var obj_hijackAndPublishPartialRefresh=function (){
+ // Hijack the partial refresh 
+ 
+ XSP._inheritedPartialRefresh = XSP._partialRefresh;
+ XSP._partialRefresh = function( method, form, refreshId, options ){  
+     // Publish init
+     dojo.publish( 'partialrefresh-init', [ method, form, refreshId, options ]);
+     this._inheritedPartialRefresh( method, form, refreshId, options );
+ }
+   
+ // Publish start, complete and error states 
+ dojo.subscribe( 'partialrefresh-init', function( method, form, refreshId, options ){
+    
+  if( options ){ // Store original event handlers
+   var eventOnStart = options.onStart; 
+   var eventOnComplete = options.onComplete;
+   var eventOnError = options.onError;
+  }
+  
+  options = options || {};  
+  options.onStart = function(){
+   dojo.publish( 'partialrefresh-start', [ method, form, refreshId, options ]);
+   if( eventOnStart ){
+    if( typeof eventOnStart === 'string' ){
+     eval(eventOnStart)
+    } else {
+     eventOnStart();
+    }
+   }
+  };
+    
+  options.onComplete = function(){
+   dojo.publish( 'partialrefresh-complete', [ method, form, refreshId, options ]);
+   if( eventOnComplete ){
+    if( typeof eventOnComplete === 'string' ){
+     eval( eventOnComplete );
+    } else {
+     eventOnComplete();
+    }
+   }
+  };
+    
+  options.onError = function(){
+   dojo.publish( 'partialrefresh-error', [ method, form, refreshId, options ]);
+   if( eventOnError ){
+    if( typeof eventOnError === 'string' ){
+     eval( eventOnError );
+    } else {
+     eventOnError();
+    }
+   }
+  };
+ });
+}
+hijackAndPublishPartialRefresh=obj_hijackAndPublishPartialRefresh;
+}
+var StandbyDialog_Do;   
+function StandbyDialog_Started() { 
+try{
+      if(StandbyDialog_Do==true){
+          if(this.StandbyDialog_Obj==null) {          
+                var forms=dojo.body()           
+                  this.StandbyDialog_Obj = new dojox.widget.Standby({ 
+                          target: forms,
+                          zIndex: 10000
+                  }); 
+                 document.body.appendChild(this.StandbyDialog_Obj.domNode); 
+                 this.StandbyDialog_Obj.startup(); 
+          }
+          StandbyDialog_StoreField()
+          setTimeout("if(StandbyDialog_Do==true){StandbyDialog_StoreField()}",50);
+          setTimeout("if(StandbyDialog_Do==true){this.StandbyDialog_Obj.show()}",200); 
+      }
+      }catch(e){
+      console.log("StandbyDialog_Started:"+e.toString())
+      }
+  }
+  function StandbyDialog_StoreField(){
+                if(document.activeElement){
+          sessionStorage.setItem("StandbyDialog_Field",document.activeElement.id)
+            this.StandbyDialog_Field=document.activeElement.id
+                    }
+            this.StandbyDialog_ScrollX=window.scrollX
+            this.StandbyDialog_ScrollY=window.scrollY
+         
+         
+  }
+   
+  function StandbyDialog_Completed() { 
+   try{
+    StandbyDialog_Do=false
+    if(this.StandbyDialog_Obj!=null) this.StandbyDialog_Obj.hide();
+    if(this.StandbyDialog_Field===null){return true}
+    var ActiveId="";
+     if(document.activeElement){
+       if(document.activeElement.id){
+          ActiveId=document.activeElement.id;
+        }}
+    if(this.StandbyDialog_Field!=ActiveId){
+      var prevElement = dojo.byId(this.StandbyDialog_Field);
+      if( prevElement){
+      if('INPUT|SELECT|TEXTAREA'.indexOf(prevElement.nodeName)!=-1){
+          prevElement.focus();
+          if( prevElement.nodeName !== 'SELECT' ){
+              prevElement.select();
+          }
+      }}    
+    }
+  //  XSP.scrollWindow(this.StandbyDialog_ScrollX,this.StandbyDialog_ScrollY)
+  }catch(e){
+      console.log("StandbyDialog_Completed:"+e.toString())
+      }
+  }
+  function FieldOnfocus(){
+    console.log(refreshId)
+  }
+  function StandbyDialog_Enable(){
+  try{
+    //dojo-subscribe('onfocus',null,function(method,form,refreshId){FieldOnfocus()})
+    dojo.subscribe( 'partialrefresh-start', null, function( method, form, refreshId ){
+  
+    StandbyDialog_Do=true
+   StandbyDialog_Started() 
+    } );
+    dojo.subscribe( 'partialrefresh-complete', null, function( method, form, refreshId ){
+      StandbyDialog_Completed()
+       
+    } );
+    dojo.subscribe( 'partialrefresh-error', null, function( method, form, refreshId ){
+      StandbyDialog_Completed()
+    } );
+    }catch(e){
+    console.log(e)
+    }
+  }
+ 
+  if(init_hijackAndPublishPartialRefresh==true){
+    hijackAndPublishPartialRefresh()
+  }
+dojo.addOnLoad(StandbyDialog_Enable);
+XSP.addOnLoad(function(){
+	XSP.submitLatency = 360*1000;
+});]]></xp:this.value>
+	</xp:scriptBlock>
+</xp:view>

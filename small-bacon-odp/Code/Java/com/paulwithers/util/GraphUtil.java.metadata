@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="8025808000350343" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="1b2" sequence="35" unid="093E388D073C0B3B8025802E006CF74A">
+<created><datetime dst="true">20160914T205011,94+01</datetime></created>
+<modified><datetime>20161205T095152,65+00</datetime></modified>
+<revised><datetime>20161205T095152,64+00</datetime></revised>
+<lastaccessed><datetime>20161205T095152,65+00</datetime></lastaccessed>
+<addedtofile><datetime>20161205T093903,75+00</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=admin/O=Intec-PW</name><name>CN=Paul Withers/O=Intec</name></updatedby>
+<wassignedby><name>CN=Paul Withers/O=Intec</name></wassignedby>
+<item name="$Flags"><text>34567Cg~[</text></item>
+<item name="$TITLE"><text>com/paulwithers/util/GraphUtil.java</text></item>
+
+
+
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>com/paulwithers/util/GraphUtil.java</text></item>
+
+</note>

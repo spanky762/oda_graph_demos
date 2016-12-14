@@ -1,0 +1,45 @@
+.topPanel {
+	background-color: #000;
+  	min-height: 450px;
+  	background-image: url(Kevin_Bacon_SDCC_2014.jpg);
+    background-repeat: no-repeat;
+    background-position: right 20px center;
+    color: #bcbec0;
+    padding: 5px;
+}
+
+.topPanel .h2 {
+  	color: #fff;
+  	font-weight: bold;
+  }
+  
+.topPanel .info {
+    font-size: 16px;
+  }
+  
+  .mini {
+  	font-size: 75%;
+  	text-align:right;
+  }
+  
+  .bodyCell {
+  	padding: 20px;
+  	background-color: #ece7e8;
+  	color: #000;
+  	line-spacing: 1.5em;
+  }
+  
+  .bodyCell .h3 {
+  	font-size: 1.2em;
+  	color: #bcbec0;
+  }
+  
+  .numberCell {
+  	font-size: 3em;
+  	text-align: center;
+  }
+  
+  .route {
+  	color: #197de1;
+  }
+  

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+  <classpathentry kind="src" path="Local"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+  <classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.apache.commons.lang_2.2.0.20121130-2130.jar"/>
+  <classpathentry kind="lib" path="C:/Users/withersp/Git Repositories/bttf/BuzzQuoteBingoOsgi/com.bttf.BuzzquoteBingo/WebContent/WEB-INF/lib/commons-collections-3.1.jar"/>
+  <classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
+</classpath>
