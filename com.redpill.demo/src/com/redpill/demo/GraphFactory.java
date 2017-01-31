@@ -24,6 +24,7 @@ import org.openntf.domino.graph2.impl.DFramedGraphFactory;
 import org.openntf.domino.graph2.impl.DFramedTransactionalGraph;
 import org.openntf.domino.graph2.impl.DGraph;
 import org.openntf.domino.rest.resources.command.ICommandProcessor;
+import org.openntf.domino.rest.resources.info.IInfoProvider;
 import org.openntf.domino.rest.service.IGraphFactory;
 import org.openntf.domino.utils.Factory;
 import org.openntf.domino.utils.Factory.SessionType;
@@ -267,6 +268,24 @@ public class GraphFactory implements IGraphFactory {
 	public List<IExtConfiguration> getConfigExtensions() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Object processRequest(String arg0, String arg1, MultivaluedMap<String, String> arg2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void registerInfoProvider(String arg0, String arg1, IInfoProvider arg2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void unregisterInfoProvider(IInfoProvider arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
