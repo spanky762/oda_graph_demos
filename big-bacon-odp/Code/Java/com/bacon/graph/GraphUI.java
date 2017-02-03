@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
+import javax.faces.context.FacesContext;
+
 import org.apache.commons.lang.StringUtils;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -31,8 +33,9 @@ public class GraphUI implements Serializable {
 		keys.add("Name");
 		ArrayList<String> vals = new ArrayList();
 		vals.add(value);
-		Iterable<Actor> actorIterable = GraphUtil.getGraphInstance().getFilteredElementsPartial(
-				"com.bacon.model.Actor", keys, vals);
+		Iterable<Actor> actorIterable = GraphUtil
+				.getGraphInstance()
+				.getFilteredElementsPartial("com.bacon.model.Actor", keys, vals);
 		TreeSet<String> names = new TreeSet<String>();
 		int count = 0;
 		for (Actor actor : actorIterable) {
@@ -49,8 +52,8 @@ public class GraphUI implements Serializable {
 	}
 
 	public void setActors() {
-		Iterable<Actor> actorIterable = GraphUtil.getGraphInstance().getVertices("Name", getSelectedActor(),
-				Actor.class);
+		Iterable<Actor> actorIterable = GraphUtil.getGraphInstance()
+				.getVertices("Name", getSelectedActor(), Actor.class);
 		ArrayList<String> names = new ArrayList<String>();
 		int count = 0;
 		for (Actor actor : actorIterable) {
@@ -69,7 +72,8 @@ public class GraphUI implements Serializable {
 		if (StringUtils.isEmpty(getSelectedActor())) {
 			return null;
 		} else {
-			return (Actor) GraphUtil.getGraphInstance().getVertex(getSelectedActor(), Actor.class);
+			return (Actor) GraphUtil.getGraphInstance().getVertex(
+					getSelectedActor(), Actor.class);
 		}
 	}
 
@@ -82,7 +86,8 @@ public class GraphUI implements Serializable {
 	}
 
 	public String getActorPath() {
-		UIViewRootEx2 view = (UIViewRootEx2) ExtLibUtil.resolveVariable("view");
+		UIViewRootEx2 view = (UIViewRootEx2) ExtLibUtil.resolveVariable(
+				FacesContext.getCurrentInstance(), "view");
 		if (!view.isRenderingPhase()) {
 			return "";
 		} else {
@@ -120,7 +125,8 @@ public class GraphUI implements Serializable {
 	public void loadBigData() {
 		try {
 			GraphUtil.nukeData();
-			InputStream actorsLarge = GraphUI.class.getResourceAsStream("actors_larger");
+			InputStream actorsLarge = GraphUI.class
+					.getResourceAsStream("actors_larger");
 			CSVReader reader = new CSVReader(new InputStreamReader(actorsLarge));
 			List<String[]> myEntries = reader.readAll(); // All data
 			int count = 0;
@@ -130,9 +136,11 @@ public class GraphUI implements Serializable {
 				String character = docData[2];
 				String movieTitle = docData[3];
 				String year = docData[4];
-				Actor actor = (Actor) GraphUtil.getGraphInstance().addVertex(performer, Actor.class);
+				Actor actor = (Actor) GraphUtil.getGraphInstance().addVertex(
+						performer, Actor.class);
 				actor.setName(performer);
-				Movie movie = (Movie) GraphUtil.getGraphInstance().addVertex(movieTitle, Movie.class);
+				Movie movie = (Movie) GraphUtil.getGraphInstance().addVertex(
+						movieTitle, Movie.class);
 				movie.setTitle(movieTitle);
 				movie.setYear(year);
 				StarsIn stars = movie.addActor(actor);
