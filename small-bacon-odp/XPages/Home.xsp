@@ -5,7 +5,7 @@
 		<xp:styleSheet href="/application.css"></xp:styleSheet>
 		<xp:dojoModule name="dojox.widget.Standby"></xp:dojoModule>
 	</xp:this.resources>
-	<xe:applicationLayout id="applicationLayout1">
+<!--	<xe:applicationLayout id="applicationLayout1">-->
 		<xp:panel id="mainBody">
 			<xp:this.data>
 				<xe:objectData var="graph"
@@ -76,12 +76,12 @@
 				</xp:text>
 			</xp:div>
 		</xp:panel>
-		<xe:this.configuration>
-			<xe:simpleResponsiveConfiguration
-				fixedNavbar="fixed-top" navbarText="${javascript:database.getTitle()}">
-			</xe:simpleResponsiveConfiguration>
-		</xe:this.configuration>
-	</xe:applicationLayout>
+<!--		<xe:this.configuration>-->
+<!--			<xe:simpleResponsiveConfiguration-->
+<!--				fixedNavbar="fixed-top" navbarText="${javascript:database.getTitle()}">-->
+<!--			</xe:simpleResponsiveConfiguration>-->
+<!--		</xe:this.configuration>-->
+<!--	</xe:applicationLayout>-->
 
 	<xp:scriptBlock id="scriptBlock1">
 		<xp:this.value><![CDATA[
