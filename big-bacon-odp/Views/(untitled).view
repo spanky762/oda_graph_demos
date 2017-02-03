@@ -1,14 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
-<view xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.5'
- replicaid='80257F8E00417474' showinmenu='true' publicaccess='false' default='true'
- noviewformat='true'>
-<noteinfo noteid='116' unid='AA8119F1BB90B94A80257F8E00417485' sequence='1'>
-<created><datetime dst='true'>20160407T125456,69+01</datetime></created>
-<modified><datetime dst='true'>20160407T125456,72+01</datetime></modified>
-<revised><datetime dst='true'>20160407T125456,71+01</datetime></revised>
-<lastaccessed><datetime>20161106T182209,01+00</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20160407T125456,72+01</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=admin/O=Intec-PW</name></updatedby><code event='selection'><formula
->SELECT @All</formula></code>
-<item name='$FormulaClass'><text>1</text></item></view>
+<note default='true' class='view' xmlns='http://www.lotus.com/dxl' version='9.0'
+ maintenanceversion='1.4' replicaid='852580BB00756A02'>
+<noteinfo noteid='116' unid='E31F4203088B3AEF852580BB00756A04' sequence='1'>
+<created><datetime>20170202T162228,52-05</datetime></created>
+<modified><datetime>20170202T162228,54-05</datetime></modified>
+<revised><datetime>20170202T162228,53-05</datetime></revised>
+<lastaccessed><datetime>20170202T162855,12-05</datetime></lastaccessed>
+<addedtofile><datetime>20170202T162228,54-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=Demo</name></updatedby>
+<item name='$TITLE'><text/></item>
+<item name='$Formula' summary='true'><formula compiled='true'>
+HAAFAA4ACgABAAQAJCQkJAQABAAAAAgAZgADAA==
+</formula></item>
+<item name='$FormulaClass'><text>1</text></item></note>
 
