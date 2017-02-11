@@ -9,6 +9,7 @@ import java.util.TreeSet;
 
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang.StringUtils;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -47,8 +48,7 @@ public class GraphUI implements Serializable {
 		}
 
 		System.out.println("Loaded actors");
-		return Strings.join(names.iterator(), ",");
-		// return StringUtils.join(names.iterator(), ",");
+		return StringUtils.join(names.iterator(), ",");
 	}
 
 	public void setActors() {
@@ -69,8 +69,7 @@ public class GraphUI implements Serializable {
 	}
 
 	public Actor getActor() {
-		// if (StringUtils.isEmpty(getSelectedActor())) {
-		if (Strings.isBlankString(getSelectedActor())) {
+		if (StringUtils.isEmpty(getSelectedActor())) {
 			return null;
 		} else {
 			return (Actor) GraphUtil.getGraphInstance().getVertex(
