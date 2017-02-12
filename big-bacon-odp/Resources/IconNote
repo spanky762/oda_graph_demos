@@ -1,13 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='icon' xmlns='http://www.lotus.com/dxl' version='9.0'
- maintenanceversion='1.5' replicaid='80257F8E00417474'>
-<noteinfo noteid='11a' unid='B3925AD8481D445380257F8E00417486' sequence='3'>
-<created><datetime dst='true'>20160407T125456,70+01</datetime></created>
-<modified><datetime dst='true'>20160407T125456,78+01</datetime></modified>
-<revised><datetime dst='true'>20160407T125456,77+01</datetime></revised>
-<lastaccessed><datetime dst='true'>20160407T125456,78+01</datetime></lastaccessed>
-<addedtofile><datetime dst='true'>20160407T125456,74+01</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=admin/O=Intec-PW</name></updatedby>
+ maintenanceversion='1.4' replicaid='852580BB00756A02'>
+<noteinfo noteid='11a' unid='E737C996CAAB2828852580BB00756A05' sequence='12'>
+<created><datetime>20170202T162228,53-05</datetime></created>
+<modified><datetime>20170211T162328,30-05</datetime></modified>
+<revised><datetime>20170211T162328,29-05</datetime></revised>
+<lastaccessed><datetime>20170211T162328,30-05</datetime></lastaccessed>
+<addedtofile><datetime>20170202T162228,56-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=Demo</name></updatedby>
+<wassignedby><name>CN=Devin Olson/O=Demo</name></wassignedby>
 <item name='IconBitmap' summary='true'>
 <rawitemdata type='6'>
 AiAgAQAA///////wD///4Af//8AD//4AAH/8AAA/+AAAH/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAA
@@ -23,7 +24,10 @@ d30fAAAAAPHXd33Xd3d913d9HwAAAADx13d913d3fdd3fR8AAAAA8R3d0dd3d30d3dEfAAAAAA8R
 EREdd3fRERER8AAAAAAA////Ed3dEf///wAAAAAAAAAAAPERER8AAAAAAAAAAAAAAAAP///wAAAA
 AAAAUEECICABAAD/////+A4DgA==
 </rawitemdata></item>
-<item name='$Flags'><text>J</text></item>
 <item name='$Daos'><text>0</text></item>
-<item name='$TITLE'><text>Bacon</text></item></note>
+<item name='$TITLE'><text>Bacon</text></item>
+<item name='$Flags'><text>J!</text></item>
+<item name='$LaunchXPageRunOnServer'><text>0</text></item>
+<item name='$FlagsNoRefresh'><text>rv</text></item>
+<item name='$DefaultXPage'><text>Home.xsp</text></item></note>
 
