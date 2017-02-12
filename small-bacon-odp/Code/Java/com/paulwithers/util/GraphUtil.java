@@ -17,13 +17,15 @@ import com.bacon.model.Actor;
 import com.bacon.model.Movie;
 
 public class GraphUtil {
-	private static DFramedTransactionalGraph GRAPH_INSTANCE;
+	private static DFramedTransactionalGraph	GRAPH_INSTANCE;
 
 	public static enum Store {
-		DEFAULT, ACTORS, MOVIES;
+		DEFAULT,
+		ACTORS,
+		MOVIES;
 	}
 
-	protected static Map<Store, String> DEFAULT_PATH_MAPPINGS;
+	protected static Map<Store, String>	DEFAULT_PATH_MAPPINGS;
 	static {
 		Map<Store, String> map = new EnumMap<Store, String>(Store.class);
 		// map.put(Store.BOOKREVIEWS, "Training/BOOKREV.NSF");
@@ -33,7 +35,7 @@ public class GraphUtil {
 		DEFAULT_PATH_MAPPINGS = map;
 	}
 
-	private Map<Store, String> pathMap_;
+	private Map<Store, String>			pathMap_;
 
 	public static synchronized DFramedTransactionalGraph getGraphInstance() {
 		if (GRAPH_INSTANCE == null) {
@@ -43,9 +45,14 @@ public class GraphUtil {
 	}
 
 	public static void nukeData() {
-		for (Store storeName : DEFAULT_PATH_MAPPINGS.keySet()) {
-			Database db = Factory.getSession(SessionType.NATIVE).getDatabase(DEFAULT_PATH_MAPPINGS.get(storeName));
-			db.getAllDocuments().removeAll(true);
+		try {
+			for (Store storeName : DEFAULT_PATH_MAPPINGS.keySet()) {
+				Database db = Factory.getSession(SessionType.NATIVE).getDatabase(DEFAULT_PATH_MAPPINGS.get(storeName));
+				db.getAllDocuments().removeAll(true);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

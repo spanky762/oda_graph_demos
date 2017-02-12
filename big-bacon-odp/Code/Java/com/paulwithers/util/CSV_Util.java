@@ -14,8 +14,8 @@ import lotus.domino.DateTime;
 import lotus.domino.Document;
 import lotus.domino.NotesException;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
+import org.openntf.domino.exceptions.DataNotCompatibleException;
+import org.openntf.domino.utils.Strings;
 import org.openntf.domino.xsp.XspOpenLogUtil;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -38,7 +38,7 @@ import com.ibm.xsp.extlib.util.ExtLibUtil;
  */
 public class CSV_Util {
 
-	private static final boolean TRACE = false;
+	private static final boolean	TRACE	= false;
 
 	/**
 	 * @param formName
@@ -72,9 +72,11 @@ public class CSV_Util {
 				Document doc = db.createDocument();
 				try {
 					if (fieldNames.size() < docData.length) {
-						XspOpenLogUtil.logErrorEx(new Throwable(), "Incorrect number of elements on line "
-								+ Integer.toString(docCount) + ": " + StringUtils.join(docData, ","), Level.SEVERE,
-								null);
+						// XspOpenLogUtil.logErrorEx(new Throwable(), "Incorrect number of elements on line " +
+						// Integer.toString(docCount)
+						// + ": " + StringUtils.join(docData, ","), Level.SEVERE, null);
+						XspOpenLogUtil.logErrorEx(new Throwable(), "Incorrect number of elements on line " + Integer.toString(docCount)
+								+ ": " + Strings.join(docData, ","), Level.SEVERE, null);
 					} else {
 						doc.replaceItemValue("Form", formName);
 						createDoc(doc, fieldNames, docData, docCount);
@@ -84,8 +86,7 @@ public class CSV_Util {
 				}
 				docCount++;
 			}
-			XspOpenLogUtil.logEvent(new Throwable(), "Created " + Integer.toString(docCount) + " documents",
-					Level.FINE, null);
+			XspOpenLogUtil.logEvent(new Throwable(), "Created " + Integer.toString(docCount) + " documents", Level.FINE, null);
 
 			return true;
 		} catch (Exception e) {
@@ -107,10 +108,8 @@ public class CSV_Util {
 
 		boolean retVal = false;
 		try {
-			InputStream source = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(
-					srcResourceName);
-			InputStream mapper = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(
-					srcMapperName);
+			InputStream source = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(srcResourceName);
+			InputStream mapper = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(srcMapperName);
 			if (loadDocsFromFile(formName, source, mapper)) {
 				return true;
 			} else {
@@ -145,16 +144,20 @@ public class CSV_Util {
 								String[] docDataMulti = docData[i].split(",");
 								double[] dblDataMulti = new double[docDataMulti.length];
 								for (int j = 0; j < docDataMulti.length; j++) {
-									dblDataMulti[j] = NumberUtils.createDouble(docDataMulti[j]);
+									// dblDataMulti[j] = NumberUtils.createDouble(docDataMulti[j]);
+									dblDataMulti[j] = CSV_Util.toDouble(docDataMulti[j]);
 								}
 								Vector v = new Vector(Arrays.asList(dblDataMulti));
 								doc.replaceItemValue(field[0], v);
 							} else {
-								doc.replaceItemValue(field[0], NumberUtils.createDouble(docData[i]));
+								// doc.replaceItemValue(field[0], NumberUtils.createDouble(docData[i]));
+								doc.replaceItemValue(field[0], CSV_Util.toDouble(docData[i]));
 							}
 						} catch (Exception e) {
+							// XspOpenLogUtil.logErrorEx(e, "Error setting number for " + field[0] + " on document: "
+							// + StringUtils.join(docData, ","), Level.SEVERE, null);
 							XspOpenLogUtil.logErrorEx(e, "Error setting number for " + field[0] + " on document: "
-									+ StringUtils.join(docData, ","), Level.SEVERE, null);
+									+ Strings.join(docData, ","), Level.SEVERE, null);
 						}
 					} else if ("date".equals(dataType) || "datetime".equals(dataType) || "time".equals(dataType)) {
 						if (multi) {
@@ -174,8 +177,10 @@ public class CSV_Util {
 								doc.replaceItemValue(field[0], dateDocData);
 								dateDocData.recycle();
 							} catch (NotesException e) {
+								// XspOpenLogUtil.logErrorEx(e, "Error setting date for " + field[0] + " on document: "
+								// + StringUtils.join(docData, ","), Level.SEVERE, null);
 								XspOpenLogUtil.logErrorEx(e, "Error setting date for " + field[0] + " on document: "
-										+ StringUtils.join(docData, ","), Level.SEVERE, null);
+										+ Strings.join(docData, ","), Level.SEVERE, null);
 							}
 						}
 					} else {
@@ -207,16 +212,32 @@ public class CSV_Util {
 			}
 			doc.save();
 		} catch (NotesException e) {
-			XspOpenLogUtil
-					.logErrorEx(e, "Error saving document: " + StringUtils.join(docData, ","), Level.SEVERE, null);
+			// XspOpenLogUtil.logErrorEx(e, "Error saving document: " + StringUtils.join(docData, ","), Level.SEVERE,
+			// null);
+			XspOpenLogUtil.logErrorEx(e, "Error saving document: " + Strings.join(docData, ","), Level.SEVERE, null);
 		} catch (Exception e) {
-			XspOpenLogUtil
-					.logErrorEx(e, "Error saving document: " + StringUtils.join(docData, ","), Level.SEVERE, null);
+			// XspOpenLogUtil.logErrorEx(e, "Error saving document: " + StringUtils.join(docData, ","), Level.SEVERE,
+			// null);
+			XspOpenLogUtil.logErrorEx(e, "Error saving document: " + Strings.join(docData, ","), Level.SEVERE, null);
 		}
 	}
 
 	private static void logEvent(String msg) {
 		XspOpenLogUtil.logEvent(new Throwable(), msg, Level.FINE, null);
+	}
+
+	public static double toDouble(Object value) {
+		if (null == value) {
+			return 0d;
+		} else if (value instanceof Integer) {
+			return ((Integer) value).doubleValue();
+		} else if (value instanceof Double) {
+			return ((Double) value).doubleValue();
+		} else if (value instanceof String) {
+			return Double.parseDouble((String) value);
+		} else {
+			throw new DataNotCompatibleException("Cannot convert a " + value.getClass().getName() + " value of " + value + " to a double.");
+		}
 	}
 
 }
