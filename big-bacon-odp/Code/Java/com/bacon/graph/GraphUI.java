@@ -126,6 +126,10 @@ public class GraphUI implements Serializable {
 			List<String[]> myEntries = reader.readAll(); // All data
 			int count = 0;
 
+			long longCount = 0;
+			System.out.println(" ");
+			System.out.println(this.getClass().getName().concat(".loadBigData(): started"));
+
 			for (String[] docData : myEntries) {
 				String performer = docData[1];
 				String character = docData[2];
@@ -139,12 +143,18 @@ public class GraphUI implements Serializable {
 				StarsIn stars = movie.addActor(actor);
 				stars.setCharacter(character);
 				count++;
+				longCount++;
 				if (count > 1000) {
 					GraphUtil.getGraphInstance().commit();
 					count = 0;
+					System.out.println("Loaded " + longCount + " entries.");
 				}
 			}
 			GraphUtil.getGraphInstance().commit();
+
+			System.out.println(this.getClass().getName().concat(".loadBigData(): finished"));
+			System.out.println("Loaded " + longCount + " TOTAL entries.");
+			System.out.println(" ");
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}

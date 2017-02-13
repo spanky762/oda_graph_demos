@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note default='true' class='icon' xmlns='http://www.lotus.com/dxl' version='9.0'
- maintenanceversion='1.4' replicaid='852580BB00758467'>
-<noteinfo noteid='11a' unid='325DF9A734CF4895852580BB0075846B' sequence='10'>
-<created><datetime>20170202T162336,11-05</datetime></created>
-<modified><datetime>20170211T162335,66-05</datetime></modified>
-<revised><datetime>20170211T162335,65-05</datetime></revised>
-<lastaccessed><datetime>20170211T162335,66-05</datetime></lastaccessed>
-<addedtofile><datetime>20170202T162336,14-05</datetime></addedtofile></noteinfo>
+ maintenanceversion='1.4' replicaid='852580C60054EEEB'>
+<noteinfo noteid='11a' unid='1149E4E4FA6FF3C1852580C60054EEEF' sequence='13'>
+<created><datetime>20170213T102741,91-05</datetime></created>
+<modified><datetime>20170213T111243,11-05</datetime></modified>
+<revised><datetime>20170213T111243,10-05</datetime></revised>
+<lastaccessed><datetime>20170213T111243,11-05</datetime></lastaccessed>
+<addedtofile><datetime>20170213T102741,94-05</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Devin Olson/O=Demo</name></updatedby>
 <wassignedby><name>CN=Devin Olson/O=Demo</name></wassignedby>
 <item name='IconBitmap' summary='true'>
@@ -25,9 +25,10 @@ EREdd3fRERER8AAAAAAA////Ed3dEf///wAAAAAAAAAAAPERER8AAAAAAAAAAAAAAAAP///wAAAA
 AAAAUEECICABAAD/////+A4DgA==
 </rawitemdata></item>
 <item name='$Daos'><text>0</text></item>
-<item name='$TITLE'><text>Bacon Small</text></item>
+<item name='$DefaultXPage'><text>Home.xsp</text></item>
+<item name='$TITLE'><text>Bacon Demo Small Template
+#1Bacon Demo Small Template</text></item>
 <item name='$Flags'><text>J!</text></item>
 <item name='$LaunchXPageRunOnServer'><text>0</text></item>
-<item name='$FlagsNoRefresh'><text>rv</text></item>
-<item name='$DefaultXPage'><text>Home.xsp</text></item></note>
+<item name='$FlagsNoRefresh'><text>rvt</text></item></note>
 
