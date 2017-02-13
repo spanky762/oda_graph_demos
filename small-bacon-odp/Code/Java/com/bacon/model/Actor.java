@@ -70,13 +70,12 @@ public interface Actor extends VertexFrame {
 	@TypedProperty("PathToKevinBacon")
 	public ArrayList<String> getPathToKevinBacon();
 
-	public static abstract class ActorImpl implements Actor,
-			JavaHandlerContext<Vertex> {
+	public static abstract class ActorImpl implements Actor, JavaHandlerContext<Vertex> {
 		ArrayList<String> path_ = new ArrayList<String>();
 
+		@Override
 		public List<Actor> getCostars() {
-			List<Actor> costars = (List) ((DVertex) asVertex())
-					.getFrameImplObject("costars");
+			List<Actor> costars = (List) ((DVertex) asVertex()).getFrameImplObject("costars");
 			if (costars == null) {
 				costars = new ArrayList<Actor>();
 				for (Movie movie : getMovies()) {
@@ -110,8 +109,7 @@ public interface Actor extends VertexFrame {
 			if (targetDepth > curDepth) {
 				for (Actor costar : costars) {
 					System.out.println("Processing " + costar.getName());
-					int chk = costar.getDistanceTo(actorName, targetDepth,
-							curDepth + 1);
+					int chk = costar.getDistanceTo(actorName, targetDepth, curDepth + 1);
 					if (chk < Integer.MAX_VALUE) {
 						return chk;
 					}
@@ -157,9 +155,7 @@ public interface Actor extends VertexFrame {
 										if (costar.equals(checks)) {
 											path_.add(movie.getTitle());
 											path_.add(intActor.getName());
-											System.out.println(i - 1 + ": "
-													+ intActor.getName()
-													+ " also in "
+											System.out.println(i - 1 + ": " + intActor.getName() + " also in "
 													+ movie.getTitle());
 											break;
 										}
@@ -168,17 +164,11 @@ public interface Actor extends VertexFrame {
 								Actor nextLevelActor = intActor;
 								if (i > 1) {
 									for (int x = (i - 2); x > 0; x--) {
-										String checkActorName = nextLevelActor
-												.getName();
-										nextLevelActor = outputPath(
-												levelBreakdown, nextLevelActor,
-												x);
+										String checkActorName = nextLevelActor.getName();
+										nextLevelActor = outputPath(levelBreakdown, nextLevelActor, x);
 										if (nextLevelActor == null) {
-											System.out
-													.println("ERROR: No actor found at level "
-															+ x
-															+ " from "
-															+ checkActorName);
+											System.out.println("ERROR: No actor found at level " + x + " from "
+													+ checkActorName);
 											x = -1;
 										}
 									}
@@ -188,9 +178,7 @@ public interface Actor extends VertexFrame {
 										if (nextLevelActor.equals(checks)) {
 											path_.add(movie.getTitle());
 											path_.add(getName());
-											System.out.println(0 + ": "
-													+ getName() + " also in "
-													+ movie.getTitle());
+											System.out.println(0 + ": " + getName() + " also in " + movie.getTitle());
 											break;
 										}
 									}
@@ -198,8 +186,7 @@ public interface Actor extends VertexFrame {
 
 								Collections.reverse(path_);
 
-								((DVertex) asVertex()).setFrameImplObject(
-										"path", path_);
+								((DVertex) asVertex()).setFrameImplObject("path", path_);
 
 								return i;
 							}
@@ -224,13 +211,11 @@ public interface Actor extends VertexFrame {
 
 		@Override
 		public ArrayList<String> getPathToKevinBacon() {
-			ArrayList<String> path = (ArrayList<String>) ((DVertex) asVertex())
-					.getFrameImplObject("path");
+			ArrayList<String> path = (ArrayList<String>) ((DVertex) asVertex()).getFrameImplObject("path");
 			return path;
 		}
 
-		private Actor outputPath(Map<Integer, List<Actor>> levelBreakdown,
-				Actor nextLevelActor, int x) {
+		private Actor outputPath(Map<Integer, List<Actor>> levelBreakdown, Actor nextLevelActor, int x) {
 			List<Actor> prevLevel = levelBreakdown.get(x);
 			for (Actor proc : prevLevel) {
 				for (Movie movie : proc.getMovies()) {
@@ -238,8 +223,7 @@ public interface Actor extends VertexFrame {
 						if (checks.equals(nextLevelActor)) {
 							path_.add(movie.getTitle());
 							path_.add(proc.getName());
-							System.out.println(x + ": " + proc.getName()
-									+ " also in " + movie.getTitle());
+							System.out.println(x + ": " + proc.getName() + " also in " + movie.getTitle());
 							return proc;
 						}
 					}
