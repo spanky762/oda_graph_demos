@@ -1,6 +1,5 @@
 package com.bacon.graph;
 
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
@@ -22,22 +21,23 @@ import com.ibm.xsp.extlib.util.ExtLibUtil;
 import com.paulwithers.util.GraphUtil;
 
 public class GraphUI implements Serializable {
-	private static final long	serialVersionUID	= 1L;
-	private String				selectedActor;
-	public ArrayList<String>	actors;
-	private Actor				actor;
+	private static final long serialVersionUID = 1L;
+	private String selectedActor;
+	public ArrayList<String> actors;
+	private Actor actor;
+
 
 	@SuppressWarnings("unchecked")
-	public String getActorsWithKey(String value) {
+	public String getActorsWithKey(final String value) {
 		System.out.println("Getting actors");
-		ArrayList<String> keys = new ArrayList();
+		final ArrayList<String> keys = new ArrayList();
 		keys.add("Name");
-		ArrayList<String> vals = new ArrayList();
+		final ArrayList<String> vals = new ArrayList();
 		vals.add(value);
-		Iterable<Actor> actorIterable = GraphUtil.getGraphInstance().getFilteredElementsPartial("com.bacon.model.Actor", keys, vals);
-		TreeSet<String> names = new TreeSet<String>();
+		final Iterable<Actor> actorIterable = GraphUtil.getGraphInstance().getFilteredElementsPartial("com.bacon.model.Actor", keys, vals);
+		final TreeSet<String> names = new TreeSet<String>();
 		int count = 0;
-		for (Actor actor : actorIterable) {
+		for (final Actor actor : actorIterable) {
 			names.add(actor.getName());
 			count++;
 			if (count > 500) {
@@ -51,11 +51,12 @@ public class GraphUI implements Serializable {
 		return Strings.join(names.iterator(), ",");
 	}
 
+
 	public void setActors() {
-		Iterable<Actor> actorIterable = GraphUtil.getGraphInstance().getVertices("Name", getSelectedActor(), Actor.class);
-		ArrayList<String> names = new ArrayList<String>();
+		final Iterable<Actor> actorIterable = GraphUtil.getGraphInstance().getVertices("Name", this.getSelectedActor(), Actor.class);
+		final ArrayList<String> names = new ArrayList<String>();
 		int count = 0;
-		for (Actor actor : actorIterable) {
+		for (final Actor actor : actorIterable) {
 			names.add(actor.getName());
 			count++;
 			if (count > 500) {
@@ -64,40 +65,44 @@ public class GraphUI implements Serializable {
 			}
 		}
 		System.out.println("Loaded actors");
-		actors = names;
+		this.actors = names;
 	}
+
 
 	public Actor getActor() {
 		// if (StringUtils.isEmpty(getSelectedActor())) {
-		if (Strings.isBlankString(getSelectedActor())) {
+		if (Strings.isBlankString(this.getSelectedActor())) {
 			return null;
 		} else {
-			return (Actor) GraphUtil.getGraphInstance().getVertex(getSelectedActor(), Actor.class);
+			return (Actor) GraphUtil.getGraphInstance().getVertex(this.getSelectedActor(), Actor.class);
 		}
 	}
 
-	public void setSelectedActor(String selectedActor) {
+
+	public void setSelectedActor(final String selectedActor) {
 		this.selectedActor = selectedActor;
 	}
 
+
 	public String getSelectedActor() {
-		return selectedActor;
+		return this.selectedActor;
 	}
 
+
 	public String getActorPath() {
-		UIViewRootEx2 view = (UIViewRootEx2) ExtLibUtil.resolveVariable(FacesContext.getCurrentInstance(), "view");
+		final UIViewRootEx2 view = (UIViewRootEx2) ExtLibUtil.resolveVariable(FacesContext.getCurrentInstance(), "view");
 		if (!view.isRenderingPhase()) {
 			return "";
 		} else {
-			if (null == getActor()) { return ""; }
-			StringBuilder sb = new StringBuilder();
+			if (null == this.getActor()) { return ""; }
+			final StringBuilder sb = new StringBuilder();
 			boolean isActor = true;
 			int level = 0;
-			ArrayList<String> path = getActor().getPathToKevinBacon();
+			final ArrayList<String> path = this.getActor().getPathToKevinBacon();
 			if (path.isEmpty()) {
-				getActor().getDistanceToKevinBacon();
+				this.getActor().getDistanceToKevinBacon();
 			}
-			for (String elem : path) {
+			for (final String elem : path) {
 				if (level > 0) {
 					sb.append("<br/>");
 					for (int x = 0; x < level; x++) {
@@ -118,29 +123,30 @@ public class GraphUI implements Serializable {
 		}
 	}
 
+
 	public void loadBigData() {
 		try {
 			GraphUtil.nukeData();
-			InputStream actorsLarge = GraphUI.class.getResourceAsStream("actors_larger");
-			CSVReader reader = new CSVReader(new InputStreamReader(actorsLarge));
-			List<String[]> myEntries = reader.readAll(); // All data
+			final InputStream actorsLarge = GraphUI.class.getResourceAsStream("actors_larger");
+			final CSVReader reader = new CSVReader(new InputStreamReader(actorsLarge));
+			final List<String[]> myEntries = reader.readAll(); // All data
 			int count = 0;
 
 			long longCount = 0;
 			System.out.println(" ");
 			System.out.println(this.getClass().getName().concat(".loadBigData(): started"));
 
-			for (String[] docData : myEntries) {
-				String performer = docData[1];
-				String character = docData[2];
-				String movieTitle = docData[3];
-				String year = docData[4];
-				Actor actor = (Actor) GraphUtil.getGraphInstance().addVertex(performer, Actor.class);
+			for (final String[] docData : myEntries) {
+				final String performer = docData[1];
+				final String character = docData[2];
+				final String movieTitle = docData[3];
+				final String year = docData[4];
+				final Actor actor = (Actor) GraphUtil.getGraphInstance().addVertex(performer, Actor.class);
 				actor.setName(performer);
-				Movie movie = (Movie) GraphUtil.getGraphInstance().addVertex(movieTitle, Movie.class);
+				final Movie movie = (Movie) GraphUtil.getGraphInstance().addVertex(movieTitle, Movie.class);
 				movie.setTitle(movieTitle);
 				movie.setYear(year);
-				StarsIn stars = movie.addActor(actor);
+				final StarsIn stars = movie.addActor(actor);
 				stars.setCharacter(character);
 				count++;
 				longCount++;
@@ -155,7 +161,7 @@ public class GraphUI implements Serializable {
 			System.out.println(this.getClass().getName().concat(".loadBigData(): finished"));
 			System.out.println("Loaded " + longCount + " TOTAL entries.");
 			System.out.println(" ");
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			t.printStackTrace();
 		}
 	}
