@@ -1,7 +1,11 @@
 package com.paulwithers.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.openntf.domino.utils.CollectionUtils;
 import org.openntf.domino.utils.Strings;
@@ -10,7 +14,7 @@ public enum StringUtils {
 	; // NO INSTANCE MEMBERS
 
 	/**
-	 * Returns a new String composed of copies of the CharSequence elements joined together with a copy of the specified delimiter.
+	 * Returns a new String composed of copies of the String elements joined together with a copy of the specified delimiter.
 	 * 
 	 * For example,
 	 * 
@@ -25,13 +29,13 @@ public enum StringUtils {
 	 * 
 	 * @return a new String that is composed of the elements separated by the delimiter
 	 */
-	public static String join(final CharSequence delimiter, final CharSequence... elements) {
+	public static String join(final String delimiter, final String... elements) {
 		return null;
 	}
 
 
 	/**
-	 * Returns a new String composed of copies of the CharSequence elements joined together with a copy of the specified delimiter.
+	 * Returns a new String composed of copies of the String elements joined together with a copy of the specified delimiter.
 	 * 
 	 * For example,
 	 * 
@@ -60,7 +64,7 @@ public enum StringUtils {
 	 * 
 	 * @return a new String that is composed from the elements argument
 	 */
-	public static String join(final CharSequence delimiter, final Iterable<? extends CharSequence> elements) {
+	public static String join(final String delimiter, final Iterable<? extends String> elements) {
 		return null;
 	}
 
@@ -77,8 +81,31 @@ public enum StringUtils {
 	 * 
 	 * @return a new String that is composed of the elements separated by the delimiter
 	 */
-	public static String join(final CharSequence delimiter, final Object... objects) {
-		return null;
+	public static String join(final String delimiter, final Object... objects) {
+		final StringBuilder stringbuilder = new StringBuilder();
+		final Iterable<String> iterable = new ArrayList<String>();
+
+		for (final Object o : objects) {
+			final String s = StringUtils.getString(o);
+			if (!Strings.isBlankString(s)) {
+
+			}
+		}
+
+		if (Strings.isBlankString(delimiter)) {
+			for (final Object o : objects) {
+				stringbuilder.append(o.toString());
+			}
+
+			return stringbuilder.toString();
+
+		} else {
+			for (final Object o : objects) {
+				stringbuilder.append(o.toString() + delimiter);
+			}
+
+			return stringbuilder.substring(0, stringbuilder.lastIndexOf(delimiter));
+		}
 	}
 
 
@@ -139,38 +166,6 @@ public enum StringUtils {
 	/**
 	 * Joins elements into a String using a specified delimiter.
 	 * 
-	 * Concatenates the string values of elements from collection using a specified delimiter
-	 * 
-	 * @param delimiter
-	 *        String used to delimit elements in source
-	 * 
-	 * @param objects
-	 *        Objects to join
-	 * 
-	 * @return String values of all elements in source concatenated by delimiter
-	 */
-	public static String join(final String delimiter, final Object... objects) {
-		final StringBuilder stringbuilder = new StringBuilder();
-		if (Strings.isBlankString(delimiter)) {
-			for (final Object o : objects) {
-				stringbuilder.append(o.toString());
-			}
-
-			return stringbuilder.toString();
-
-		} else {
-			for (final Object o : objects) {
-				stringbuilder.append(o.toString() + delimiter);
-			}
-
-			return stringbuilder.substring(0, stringbuilder.lastIndexOf(delimiter));
-		}
-	}
-
-
-	/**
-	 * Joins elements into a String using a specified delimiter.
-	 * 
 	 * Concatenates the string values of elements from an array or collection using a specified delimiter
 	 * 
 	 * @param source
@@ -206,6 +201,101 @@ public enum StringUtils {
 			} else {
 				return StringUtils.join(CollectionUtils.getStringArray(source), delimiter);
 			}
+		}
+
+		return "";
+	}
+
+
+	/**
+	 * Gets the String of an object WITHOUT THROWING AN EXCEPTION.
+	 * 
+	 * Handles null and enum instances.
+	 * 
+	 * Null is returned as an empty string "", Enum instances return the name of the enum. If the object is an instance of String, it will
+	 * be cast as a String and returned. Otherwise, the result of the object's toString() method will be returned.
+	 * 
+	 * @param source
+	 *        object for which to return the String.
+	 * 
+	 * @return String representation the object. Empty string "" on exception.
+	 */
+	public static String getString(final Object source) {
+		return StringUtils.getString(source, "");
+	}
+
+
+	/**
+	 * Gets the String of an object WITHOUT THROWING AN EXCEPTION.
+	 * 
+	 * Handles null and enum instances.
+	 * 
+	 * Null is returned as an empty string "", Enum instances return the name of the enum. If the object is an instance of String, it will
+	 * be cast as a String and returned. Otherwise, the result of the object's toString() method will be returned.
+	 * 
+	 * @param source
+	 *        object for which to return the String.
+	 * 
+	 * @param delimiter
+	 *        Delimiter to use between collection members.
+	 * 
+	 * 
+	 * @return String representation the object. Empty string "" on exception.
+	 */
+	@SuppressWarnings("unchecked")
+	public static String getString(final Object source, final String delimiter) {
+		// TODO Talk to NTF about moving this to ODA org.openntf.domino.utils.Strings
+		if (null == source) { return ""; }
+
+		try {
+			// Enums
+			if (source instanceof Enum<?>) { return ((Enum<?>) source).name(); }
+
+			// Enumerations
+			if (source instanceof Enumeration) {
+				final Collection<String> list = new ArrayList<String>();
+				final Enumeration enumeration = (Enumeration) source;
+				while (enumeration.hasMoreElements()) {
+					list.add(StringUtils.getString(enumeration.nextElement()));
+				}
+
+				return Strings.join(list, (Strings.isBlankString(delimiter)) ? "" : delimiter);
+			}
+
+			// Maps
+			if (source instanceof Map) {
+				final Collection<String> list = new ArrayList<String>();
+
+				final Iterator<Map.Entry<Object, Object>> it = (((Map) source).entrySet().iterator());
+				while (it.hasNext()) {
+					final Map.Entry<Object, Object> entry = it.next();
+					list.add(StringUtils.getString(entry.getKey(), "").concat("=").concat(StringUtils.getString(entry.getValue(), "")));
+				}
+
+				return Strings.join(list, (Strings.isBlankString(delimiter)) ? "" : delimiter);
+			}
+
+			// Collections
+			if (source instanceof Collection) {
+				final Object[] array = ((Collection) source).toArray();
+				if (array.length < 1) { return ""; }
+
+				final Collection<String> list = new ArrayList<String>();
+				for (final Object element : array) {
+					list.add(StringUtils.getString(element, ""));
+				}
+
+				return Strings.join(list, (Strings.isBlankString(delimiter)) ? "" : delimiter);
+			}
+
+			// Arrays
+			if (source.getClass().isArray()) { return Arrays.deepToString((Object[]) source); }
+
+			// everything else
+			return (source instanceof String) ? (String) source : String.valueOf(source);
+
+		} catch (final Exception e) {
+			// do nothing
 		}
 
 		return "";
