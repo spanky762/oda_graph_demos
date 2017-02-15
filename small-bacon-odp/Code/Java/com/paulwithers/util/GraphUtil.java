@@ -1,7 +1,9 @@
 package com.paulwithers.util;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -15,6 +17,8 @@ import org.openntf.domino.utils.Factory;
 import org.openntf.domino.utils.Strings;
 import org.openntf.domino.utils.Factory.SessionType;
 
+import com.azlighthouse.util.ServletUtils;
+import com.azlighthouse.util.StringUtils;
 import com.bacon.model.Actor;
 import com.bacon.model.Movie;
 
@@ -51,16 +55,6 @@ public class GraphUtil {
 		}
 	}
 
-	// protected static Map<Store, String> DEFAULT_PATH_MAPPINGS;
-	// static {
-	// Map<Store, String> map = new EnumMap<Store, String>(Store.class);
-	// map.put(Store.ACTORS, "demos/bacon/small/actors.nsf");
-	// map.put(Store.MOVIES, "demos/bacon/small/movies.nsf");
-	// map.put(Store.DEFAULT, "demos/bacon/small/edges.nsf");
-	// DEFAULT_PATH_MAPPINGS = map;
-	// }
-
-	// private Map<StoreKind, String> pathMap_;
 
 	public static synchronized DFramedTransactionalGraph getGraphInstance() {
 		if (GRAPH_INSTANCE == null) {
@@ -69,19 +63,62 @@ public class GraphUtil {
 		return GRAPH_INSTANCE;
 	}
 
+
+	/**
+	 * Writes output to the console. Includes the fully qualified name of
+	 * object.
+	 * 
+	 * Calls CzarDebug to write output to the console.
+	 * 
+	 * @param method
+	 *            Method to append to the object name.
+	 * 
+	 * @param consoleText
+	 *            Text to write to the console.
+	 */
+	protected void console(final String method, final String consoleText) {
+		final StringBuilder sb = new StringBuilder(this.getClass().getName());
+		if (!Strings.isBlankString(method)) {
+			sb.append(".");
+			sb.append(method);
+		}
+
+		sb.append("\t ");
+		sb.append(consoleText);
+		System.out.println(sb.toString());
+	}
+
+
+	protected void handleException(final Exception e, final boolean includeStackTrace, final Object... args) {
+		if (null == e) { return; }
+		try {
+
+			final List<String> strings = new ArrayList<String>();
+			if (null != args) {
+				for (final Object arg : args) {
+					if (null != arg) {
+						strings.add(StringUtils.getString(arg, ", "));
+					}
+				}
+			}
+
+			ServletUtils.handleException(e, includeStackTrace, strings);
+
+		} catch (final Exception e1) {
+			ServletUtils.handleException(e, includeStackTrace, args);
+		}
+	}
+
+
 	public static void nukeData() {
 		try {
 			for (StoreKind storekind : StoreKind.values()) {
 				Database db = Factory.getSession(SessionType.NATIVE).getDatabase(storekind.getPath());
 				db.getAllDocuments().removeAll(true);
 			}
-			// for (Store storeName : DEFAULT_PATH_MAPPINGS.keySet()) {
-			// Database db = Factory.getSession(SessionType.NATIVE).getDatabase(DEFAULT_PATH_MAPPINGS.get(storeName));
-			// db.getAllDocuments().removeAll(true);
-			// }
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			ServletUtils.handleException(e, true);
 		}
 	}
 
@@ -99,26 +136,7 @@ public class GraphUtil {
 		return (DFramedTransactionalGraph) factory.create(graph);
 	}
 
-	// protected static Map<Store, DElementStore> getElementStores() {
-	// Map<Store, DElementStore> result = new EnumMap<Store, DElementStore>(Store.class);
-	// Map<Store, String> pathMap = DEFAULT_PATH_MAPPINGS;
-	//
-	// DElementStore actorStore = new org.openntf.domino.graph2.impl.DElementStore();
-	// result.put(Store.ACTORS, actorStore);
-	// actorStore.addType(Actor.class);
-	// actorStore.setStoreKey(pathMap.get(Store.ACTORS));
-	//
-	// DElementStore movieStore = new org.openntf.domino.graph2.impl.DElementStore();
-	// result.put(Store.MOVIES, movieStore);
-	// movieStore.addType(Movie.class);
-	// movieStore.setStoreKey(pathMap.get(Store.MOVIES));
-	//
-	// DElementStore defaultStore = new org.openntf.domino.graph2.impl.DElementStore();
-	// defaultStore.setStoreKey(pathMap.get(Store.DEFAULT));
-	// result.put(Store.DEFAULT, defaultStore);
-	//
-	// return result;
-	// }
+
 	protected static Map<StoreKind, DElementStore> getElementStores() {
 		Map<StoreKind, DElementStore> result = new EnumMap<StoreKind, DElementStore>(StoreKind.class);
 
