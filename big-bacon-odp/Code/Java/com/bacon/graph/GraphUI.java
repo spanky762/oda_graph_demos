@@ -21,10 +21,10 @@ import com.ibm.xsp.extlib.util.ExtLibUtil;
 import com.paulwithers.util.GraphUtil;
 
 public class GraphUI implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private String selectedActor;
-	public ArrayList<String> actors;
-	private Actor actor;
+	private static final long	serialVersionUID	= 1L;
+	private String				selectedActor;
+	public ArrayList<String>	actors;
+	private Actor				actor;
 
 
 	@SuppressWarnings("unchecked")
@@ -80,6 +80,7 @@ public class GraphUI implements Serializable {
 
 
 	public void setSelectedActor(final String selectedActor) {
+		this.console("setSelectedActor()", selectedActor);
 		this.selectedActor = selectedActor;
 	}
 
@@ -164,6 +165,30 @@ public class GraphUI implements Serializable {
 		} catch (final Throwable t) {
 			t.printStackTrace();
 		}
+	}
+
+	/**
+	 * Writes output to the console. Includes the fully qualified name of
+	 * object.
+	 * 
+	 * Calls CzarDebug to write output to the console.
+	 * 
+	 * @param method
+	 *            Method to append to the object name.
+	 * 
+	 * @param consoleText
+	 *            Text to write to the console.
+	 */
+	protected void console(final String method, final String consoleText) {
+		final StringBuilder sb = new StringBuilder(this.getClass().getName());
+		if (!Strings.isBlankString(method)) {
+			sb.append(".");
+			sb.append(method);
+		}
+
+		sb.append("\t ");
+		sb.append(consoleText);
+		System.out.println(sb.toString());
 	}
 
 }
