@@ -71,9 +71,8 @@ public interface Actor extends VertexFrame {
 	public ArrayList<String> getPathToKevinBacon();
 
 	public static abstract class ActorImpl implements Actor, JavaHandlerContext<Vertex> {
-		ArrayList<String> path_ = new ArrayList<String>();
+		ArrayList<String>	path_	= new ArrayList<String>();
 
-		@Override
 		public List<Actor> getCostars() {
 			List<Actor> costars = (List) ((DVertex) asVertex()).getFrameImplObject("costars");
 			if (costars == null) {
@@ -93,39 +92,31 @@ public interface Actor extends VertexFrame {
 			return costars;
 		}
 
-		@Override
 		public int getCostarCount() {
 			return getCostars().size();
 		}
 
-		@Override
 		public int getDistanceToKevinBacon() {
 			return getDistanceTo("Kevin Bacon", 12);
 		}
 
-		@Override
 		public int getDistanceTo(String actorName, int targetDepth, int curDepth) {
 			List<Actor> costars = getCostars();
 			if (targetDepth > curDepth) {
 				for (Actor costar : costars) {
 					System.out.println("Processing " + costar.getName());
 					int chk = costar.getDistanceTo(actorName, targetDepth, curDepth + 1);
-					if (chk < Integer.MAX_VALUE) {
-						return chk;
-					}
+					if (chk < Integer.MAX_VALUE) { return chk; }
 				}
 			} else if (targetDepth == curDepth) {
 				for (Actor costar : costars) {
 					System.out.println("Processing " + costar.getName());
-					if (costar.getName().equals(actorName)) {
-						return curDepth;
-					}
+					if (costar.getName().equals(actorName)) { return curDepth; }
 				}
 			}
 			return Integer.MAX_VALUE;
 		}
 
-		@Override
 		public int getDistanceTo(String actorName, int maxDepth) {
 
 			System.out.println("Starting...");
@@ -153,11 +144,11 @@ public interface Actor extends VertexFrame {
 								for (Movie movie : intActor.getMovies()) {
 									for (Actor checks : movie.getActors()) {
 										if (costar.equals(checks)) {
-											path_.add(movie.getTitle() + " - " + movie.getYear()
-													+ getActorSummary(intActor, costar, movie));
+											path_
+													.add(movie.getTitle() + " - " + movie.getYear()
+															+ getActorSummary(intActor, costar, movie));
 											path_.add(intActor.getName());
-											System.out.println(i - 1 + ": " + intActor.getName() + " also in "
-													+ movie.getTitle());
+											System.out.println(i - 1 + ": " + intActor.getName() + " also in " + movie.getTitle());
 											break;
 										}
 									}
@@ -168,8 +159,7 @@ public interface Actor extends VertexFrame {
 										String checkActorName = nextLevelActor.getName();
 										nextLevelActor = outputPath(levelBreakdown, nextLevelActor, x);
 										if (nextLevelActor == null) {
-											System.out.println("ERROR: No actor found at level " + x + " from "
-													+ checkActorName);
+											System.out.println("ERROR: No actor found at level " + x + " from " + checkActorName);
 											x = -1;
 										}
 									}
@@ -211,7 +201,6 @@ public interface Actor extends VertexFrame {
 			return -1;
 		}
 
-		@Override
 		public ArrayList<String> getPathToKevinBacon() {
 			ArrayList<String> path = (ArrayList<String>) ((DVertex) asVertex()).getFrameImplObject("path");
 			return path;
@@ -223,8 +212,7 @@ public interface Actor extends VertexFrame {
 				for (Movie movie : proc.getMovies()) {
 					for (Actor checks : movie.getActors()) {
 						if (checks.equals(nextLevelActor)) {
-							path_.add(movie.getTitle() + " - " + movie.getYear()
-									+ getActorSummary(proc, nextLevelActor, movie));
+							path_.add(movie.getTitle() + " - " + movie.getYear() + getActorSummary(proc, nextLevelActor, movie));
 							path_.add(proc.getName());
 							System.out.println(x + ": " + proc.getName() + " also in " + movie.getTitle());
 							return proc;

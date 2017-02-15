@@ -13,6 +13,7 @@ import org.openntf.domino.utils.Strings;
 
 import au.com.bytecode.opencsv.CSVReader;
 
+import com.azlighthouse.util.StringUtils;
 import com.bacon.model.Actor;
 import com.bacon.model.Movie;
 import com.bacon.model.Movie.StarsIn;
@@ -47,8 +48,7 @@ public class GraphUI implements Serializable {
 		}
 
 		System.out.println("Loaded actors");
-		// return StringUtils.join(names.iterator(), ",");
-		return Strings.join(names.iterator(), ",");
+		return StringUtils.join(",", names.iterator());
 	}
 
 

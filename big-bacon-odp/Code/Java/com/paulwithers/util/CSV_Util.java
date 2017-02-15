@@ -15,11 +15,11 @@ import lotus.domino.Document;
 import lotus.domino.NotesException;
 
 import org.openntf.domino.exceptions.DataNotCompatibleException;
-import org.openntf.domino.utils.Strings;
 import org.openntf.domino.xsp.XspOpenLogUtil;
 
 import au.com.bytecode.opencsv.CSVReader;
 
+import com.azlighthouse.util.StringUtils;
 import com.ibm.xsp.extlib.util.ExtLibUtil;
 
 /**
@@ -28,13 +28,16 @@ import com.ibm.xsp.extlib.util.ExtLibUtil;
  * 
  *        To import from a comma-delimited text file stored in a class, use:
  * 
- *        InputStream people = DataInitializer.class.getResourceAsStream("People"); InputStream peopleMapper =
- *        DataInitializer.class.getResourceAsStream("PeopleMapper"); return CSV_Util.loadDocsFromFile("People", people,
- *        peopleMapper);
+ *        InputStream people =
+ *        DataInitializer.class.getResourceAsStream("People"); InputStream
+ *        peopleMapper =
+ *        DataInitializer.class.getResourceAsStream("PeopleMapper"); return
+ *        CSV_Util.loadDocsFromFile("People", people, peopleMapper);
  * 
  *        To import from a comma-delimited File Resource in the NSF, use:
  * 
- *        return CSV_Util.loadDocsFromFileResource("People", "People", "PeopleMapper");
+ *        return CSV_Util.loadDocsFromFileResource("People", "People",
+ *        "PeopleMapper");
  */
 public class CSV_Util {
 
@@ -42,11 +45,13 @@ public class CSV_Util {
 
 	/**
 	 * @param formName
-	 *            String name of resource, used as the name of the File Resource or as a descriptor in logging
+	 *            String name of resource, used as the name of the File Resource
+	 *            or as a descriptor in logging
 	 * @param source
 	 *            InputStream comprising content from Text File in Class
 	 * @param mapper
-	 *            InputStream comprising field names and datatypes from Text File in Class
+	 *            InputStream comprising field names and datatypes from Text
+	 *            File in Class
 	 * @return Success / Failure
 	 */
 	@SuppressWarnings("finally")
@@ -72,11 +77,8 @@ public class CSV_Util {
 				Document doc = db.createDocument();
 				try {
 					if (fieldNames.size() < docData.length) {
-						// XspOpenLogUtil.logErrorEx(new Throwable(), "Incorrect number of elements on line " +
-						// Integer.toString(docCount)
-						// + ": " + StringUtils.join(docData, ","), Level.SEVERE, null);
 						XspOpenLogUtil.logErrorEx(new Throwable(), "Incorrect number of elements on line " + Integer.toString(docCount)
-								+ ": " + Strings.join(docData, ","), Level.SEVERE, null);
+								+ ": " + StringUtils.join(",", docData), Level.SEVERE, null);
 					} else {
 						doc.replaceItemValue("Form", formName);
 						createDoc(doc, fieldNames, docData, docCount);
@@ -101,7 +103,8 @@ public class CSV_Util {
 	 * @param srcResourceName
 	 *            Name for a File Resource in the database from which to import
 	 * @param srcMapperName
-	 *            Name for a File Resource in the database to give field names and datatypes
+	 *            Name for a File Resource in the database to give field names
+	 *            and datatypes
 	 * @return Success or failure
 	 */
 	public static boolean loadDocsFromFileResource(String formName, String srcResourceName, String srcMapperName) {
@@ -144,20 +147,20 @@ public class CSV_Util {
 								String[] docDataMulti = docData[i].split(",");
 								double[] dblDataMulti = new double[docDataMulti.length];
 								for (int j = 0; j < docDataMulti.length; j++) {
-									// dblDataMulti[j] = NumberUtils.createDouble(docDataMulti[j]);
+									// dblDataMulti[j] =
+									// NumberUtils.createDouble(docDataMulti[j]);
 									dblDataMulti[j] = CSV_Util.toDouble(docDataMulti[j]);
 								}
 								Vector v = new Vector(Arrays.asList(dblDataMulti));
 								doc.replaceItemValue(field[0], v);
 							} else {
-								// doc.replaceItemValue(field[0], NumberUtils.createDouble(docData[i]));
+								// doc.replaceItemValue(field[0],
+								// NumberUtils.createDouble(docData[i]));
 								doc.replaceItemValue(field[0], CSV_Util.toDouble(docData[i]));
 							}
 						} catch (Exception e) {
-							// XspOpenLogUtil.logErrorEx(e, "Error setting number for " + field[0] + " on document: "
-							// + StringUtils.join(docData, ","), Level.SEVERE, null);
 							XspOpenLogUtil.logErrorEx(e, "Error setting number for " + field[0] + " on document: "
-									+ Strings.join(docData, ","), Level.SEVERE, null);
+									+ StringUtils.join(",", docData), Level.SEVERE, null);
 						}
 					} else if ("date".equals(dataType) || "datetime".equals(dataType) || "time".equals(dataType)) {
 						if (multi) {
@@ -177,10 +180,8 @@ public class CSV_Util {
 								doc.replaceItemValue(field[0], dateDocData);
 								dateDocData.recycle();
 							} catch (NotesException e) {
-								// XspOpenLogUtil.logErrorEx(e, "Error setting date for " + field[0] + " on document: "
-								// + StringUtils.join(docData, ","), Level.SEVERE, null);
 								XspOpenLogUtil.logErrorEx(e, "Error setting date for " + field[0] + " on document: "
-										+ Strings.join(docData, ","), Level.SEVERE, null);
+										+ StringUtils.join(",", docData), Level.SEVERE, null);
 							}
 						}
 					} else {
@@ -212,13 +213,9 @@ public class CSV_Util {
 			}
 			doc.save();
 		} catch (NotesException e) {
-			// XspOpenLogUtil.logErrorEx(e, "Error saving document: " + StringUtils.join(docData, ","), Level.SEVERE,
-			// null);
-			XspOpenLogUtil.logErrorEx(e, "Error saving document: " + Strings.join(docData, ","), Level.SEVERE, null);
+			XspOpenLogUtil.logErrorEx(e, "Error saving document: " + StringUtils.join(",", docData), Level.SEVERE, null);
 		} catch (Exception e) {
-			// XspOpenLogUtil.logErrorEx(e, "Error saving document: " + StringUtils.join(docData, ","), Level.SEVERE,
-			// null);
-			XspOpenLogUtil.logErrorEx(e, "Error saving document: " + Strings.join(docData, ","), Level.SEVERE, null);
+			XspOpenLogUtil.logErrorEx(e, "Error saving document: " + StringUtils.join(",", docData), Level.SEVERE, null);
 		}
 	}
 
