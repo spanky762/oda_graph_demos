@@ -1,0 +1,10 @@
+<plugin>
+   <extension
+         id="bacongraph"
+         name="bacongraph"
+         point="org.openntf.domino.rest.graph">
+      <serviceResources
+            class="bacongraph.domino.GraphFactory">
+      </serviceResources>
+   </extension>
+</plugin>
