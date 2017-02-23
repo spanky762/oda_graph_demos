@@ -10,7 +10,10 @@ import org.openntf.domino.graph2.DVertex;
 import org.openntf.domino.graph2.annotations.AdjacencyUnique;
 import org.openntf.domino.graph2.annotations.IncidenceUnique;
 import org.openntf.domino.graph2.annotations.TypedProperty;
+import org.openntf.domino.utils.Strings;
 
+import com.azlighthouse.util.ServletUtils;
+import com.azlighthouse.util.StringUtils;
 import com.bacon.model.Movie.StarsIn;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Vertex;
@@ -71,26 +74,41 @@ public interface Actor extends VertexFrame {
 	public ArrayList<String> getPathToKevinBacon();
 
 	public static abstract class ActorImpl implements Actor, JavaHandlerContext<Vertex> {
-		ArrayList<String> path_ = new ArrayList<String>();
+		ArrayList<String>	path_	= new ArrayList<String>();
+
+		private DVertex dv() {
+			return (DVertex) this.asVertex();
+		}
+
 
 		@Override
+		public String toString() {
+			return "Actor: ".concat(this.getName());
+		}
+
+		@SuppressWarnings("unchecked")
 		public List<Actor> getCostars() {
-			List<Actor> costars = (List) ((DVertex) asVertex()).getFrameImplObject("costars");
-			if (costars == null) {
-				costars = new ArrayList<Actor>();
-				for (Movie movie : getMovies()) {
-					// System.out.println("Checking " + " - " +
-					// movie.getTitle());
+
+			String method = "getCostars()";
+			List<Actor> result = (List) this.dv().getFrameImplObject("costars");
+			if ((result == null) || result.isEmpty()) {
+				result = new ArrayList<Actor>();
+				this.console(method, "Searching for Costars");
+				for (Movie movie : this.getMovies()) {
+					System.out.println("\t Movie: " + movie.getTitle());
 					for (Actor actor : movie.getActors()) {
-						if (!getName().equals(actor.getName())) {
-							costars.add(actor);
+						if (!this.getName().equals(actor.getName())) {
+							result.add(actor);
 						}
 					}
 				}
-				costars.remove(this);
-				((DVertex) asVertex()).setFrameImplObject("costars", costars);
+
+				result.remove(this);
+				this.dv().setFrameImplObject("costars", result);
 			}
-			return costars;
+
+			this.console(method, "" + result);
+			return result;
 		}
 
 		@Override
@@ -100,35 +118,48 @@ public interface Actor extends VertexFrame {
 
 		@Override
 		public int getDistanceToKevinBacon() {
-			return getDistanceTo("Kevin Bacon", 12);
+			int result = ("Kevin Bacon".equalsIgnoreCase(this.getName())) ? 0 : this.getDistanceTo("Kevin Bacon", 12);
+			this.console("getDistanceToKevinBacon()", "" + result);
+			return result;
 		}
 
 		@Override
 		public int getDistanceTo(String actorName, int targetDepth, int curDepth) {
+			String method = "getDistanceTo()";
+			this.console(method, actorName);
+			this.console(method, "targetDepth: " + targetDepth);
+			this.console(method, "curDepth: " + curDepth);
+
+
 			List<Actor> costars = getCostars();
 			if (targetDepth > curDepth) {
 				for (Actor costar : costars) {
-					System.out.println("Processing " + costar.getName());
+					System.out.println("\t Processing " + costar.getName());
 					int chk = costar.getDistanceTo(actorName, targetDepth, curDepth + 1);
 					if (chk < Integer.MAX_VALUE) {
+						this.console(method, "" + chk);
 						return chk;
 					}
 				}
 			} else if (targetDepth == curDepth) {
 				for (Actor costar : costars) {
-					System.out.println("Processing " + costar.getName());
+					System.out.println("\t Processing " + costar.getName());
 					if (costar.getName().equals(actorName)) {
+						this.console(method, "" + curDepth);
 						return curDepth;
 					}
 				}
 			}
+			this.console(method, "" + Integer.MAX_VALUE);
 			return Integer.MAX_VALUE;
 		}
 
 		@Override
 		public int getDistanceTo(String actorName, int maxDepth) {
+			String method = "getDistanceTo()";
+			this.console(method, actorName);
+			this.console(method, "maxDepth: " + maxDepth);
 
-			System.out.println("Starting...");
 			List<Actor> curActors = new ArrayList<Actor>();
 			List<String> checkedActors = new ArrayList<String>();
 			Map<Integer, List<Actor>> levelBreakdown = new HashMap<Integer, List<Actor>>();
@@ -144,7 +175,7 @@ public interface Actor extends VertexFrame {
 					for (Actor costar : costars) {
 						if (!checkedActors.contains(costar.getName())) {
 							if (costar.getName().equals(actorName)) {
-								System.out.println("We have bacon!");
+								System.out.println("\t We have bacon!");
 								// We have a route to Kevin Bacon!! Now go
 								// backwards to get the path
 								path_ = new ArrayList<String>();
@@ -155,30 +186,29 @@ public interface Actor extends VertexFrame {
 										if (costar.equals(checks)) {
 											path_.add(movie.getTitle());
 											path_.add(intActor.getName());
-											System.out.println(i - 1 + ": " + intActor.getName() + " also in "
-													+ movie.getTitle());
+											System.out.println(i - 1 + ": " + intActor.getName() + " also in " + movie.getTitle());
 											break;
 										}
 									}
 								}
+
 								Actor nextLevelActor = intActor;
 								if (i > 1) {
 									for (int x = (i - 2); x > 0; x--) {
 										String checkActorName = nextLevelActor.getName();
 										nextLevelActor = outputPath(levelBreakdown, nextLevelActor, x);
 										if (nextLevelActor == null) {
-											System.out.println("ERROR: No actor found at level " + x + " from "
-													+ checkActorName);
+											System.out.println("\t NOT FOUND: No actor found at level " + x + " from " + checkActorName);
 											x = -1;
 										}
 									}
 								}
-								for (Movie movie : getMovies()) {
+								for (Movie movie : this.getMovies()) {
 									for (Actor checks : movie.getActors()) {
 										if (nextLevelActor.equals(checks)) {
 											path_.add(movie.getTitle());
 											path_.add(getName());
-											System.out.println(0 + ": " + getName() + " also in " + movie.getTitle());
+											System.out.println("\t " + 0 + ": " + getName() + " also in " + movie.getTitle());
 											break;
 										}
 									}
@@ -186,10 +216,12 @@ public interface Actor extends VertexFrame {
 
 								Collections.reverse(path_);
 
-								((DVertex) asVertex()).setFrameImplObject("path", path_);
+								this.dv().setFrameImplObject("path", path_);
 
+								this.console(method, "" + i);
 								return i;
 							}
+
 							checkedActors.add(costar.getName());
 							nextActors.add(costar);
 						}
@@ -198,6 +230,7 @@ public interface Actor extends VertexFrame {
 				}
 
 				if (chk2 < Integer.MAX_VALUE) {
+					this.console(method, "" + chk2);
 					return chk2;
 				} else {
 					curActors = new ArrayList<Actor>();
@@ -206,13 +239,24 @@ public interface Actor extends VertexFrame {
 				}
 			}
 
+			this.console(method, "Not found.  Returning -1");
 			return -1;
 		}
 
 		@Override
 		public ArrayList<String> getPathToKevinBacon() {
-			ArrayList<String> path = (ArrayList<String>) ((DVertex) asVertex()).getFrameImplObject("path");
-			return path;
+			ArrayList<String> result = null;
+			try {
+				result = (ArrayList<String>) this.dv().getFrameImplObject("path");
+				if (null == result) { throw new RuntimeException("FrameImplObject 'path' is null"); }
+
+			} catch (Exception e) {
+				// this.handleException(e, false);
+				result = new ArrayList<String>();
+				this.dv().setFrameImplObject("path", result);
+			}
+
+			return result;
 		}
 
 		private Actor outputPath(Map<Integer, List<Actor>> levelBreakdown, Actor nextLevelActor, int x) {
@@ -230,6 +274,52 @@ public interface Actor extends VertexFrame {
 				}
 			}
 			return null;
+		}
+
+
+		/**
+		 * Writes output to the console. Includes the fully qualified name of
+		 * object.
+		 * 
+		 * Calls CzarDebug to write output to the console.
+		 * 
+		 * @param method
+		 *            Method to append to the object name.
+		 * 
+		 * @param consoleText
+		 *            Text to write to the console.
+		 */
+		protected void console(final String method, final String consoleText) {
+			final StringBuilder sb = new StringBuilder(this.getClass().getName());
+			if (!Strings.isBlankString(method)) {
+				sb.append(".");
+				sb.append(method);
+			}
+
+			sb.append("\t ");
+			sb.append(consoleText);
+			System.out.println(sb.toString());
+		}
+
+
+		protected void handleException(final Exception e, final boolean includeStackTrace, final Object... args) {
+			if (null == e) { return; }
+			try {
+
+				final List<String> strings = new ArrayList<String>();
+				if (null != args) {
+					for (final Object arg : args) {
+						if (null != arg) {
+							strings.add(StringUtils.getString(arg, ", "));
+						}
+					}
+				}
+
+				ServletUtils.handleException(e, includeStackTrace, strings);
+
+			} catch (final Exception e1) {
+				ServletUtils.handleException(e, includeStackTrace, args);
+			}
 		}
 
 	}

@@ -1,0 +1,10 @@
+<plugin>
+   <extension
+         id="actorsmovies"
+         name="actorsmovies"
+         point="org.openntf.domino.rest.graph">
+      <serviceResources
+            class="actorsmovies.domino.GraphFactory">
+      </serviceResources>
+   </extension>
+</plugin>

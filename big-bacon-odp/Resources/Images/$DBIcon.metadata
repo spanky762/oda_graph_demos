@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.4" replicaid="852580BB00756A02" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="1ba" sequence="2" unid="9BC9E7DEC006A4E68025804C004C16EB">
+<created><datetime dst="true">20161014T145106,03+01</datetime></created>
+<modified><datetime>20170202T162301,17-05</datetime></modified>
+<revised><datetime>20170202T162301,16-05</datetime></revised>
+<lastaccessed><datetime>20170202T162301,17-05</datetime></lastaccessed>
+<addedtofile><datetime>20170202T162301,15-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=Demo</name></updatedby>
+<wassignedby><name>CN=Devin Olson/O=Demo</name></wassignedby>
+<item name="$TITLE" sign="true"><text>$DBIcon</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+<item name="$ImagesWide" sign="true"><number>1</number></item>
+<item name="$ImagesHigh" sign="true"><number>1</number></item>
+<item name="$ImagesColorize" sign="true"><number>0</number></item>
+<item name="$ImageNames" sign="true"><text>E:\PaulTemp\Kevin-Bacon.jpg</text></item>
+
+
+<item name="$MimeType" sign="true"><text>image/jpeg</text></item>
+<item name="$FileModDT" sign="true"><datetime dst="true">20161014T145050,00+01</datetime></item>
+<item name="$Flags"><text>34CiQ</text></item>
+<item name="$FlagsExt" sign="true"><text>D</text></item></note>

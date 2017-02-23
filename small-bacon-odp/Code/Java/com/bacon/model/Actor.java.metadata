@@ -1,20 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="8025808000350343" version="9.0" xmlns="http://www.lotus.com/dxl">
-<noteinfo noteid="1a6" sequence="104" unid="E413D58118DCFF338025802E00567C34">
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.4" replicaid="852580BB00758467" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="176" sequence="7" unid="E413D58118DCFF338025802E00567C34">
 <created><datetime dst="true">20160914T164438,92+01</datetime></created>
-<modified><datetime>20161205T100030,69+00</datetime></modified>
-<revised><datetime>20161205T100030,68+00</datetime></revised>
-<lastaccessed><datetime>20161205T100030,69+00</datetime></lastaccessed>
-<addedtofile><datetime>20161205T093903,69+00</datetime></addedtofile></noteinfo>
-<updatedby><name>CN=Paul Withers/O=Intec</name><name>CN=admin/O=Intec-PW</name><name>CN=Paul Withers/O=Intec</name></updatedby>
-<wassignedby><name>CN=Paul Withers/O=Intec</name></wassignedby>
+<modified><datetime>20170202T164921,30-05</datetime></modified>
+<revised><datetime>20170202T164921,29-05</datetime></revised>
+<lastaccessed><datetime>20170202T164921,30-05</datetime></lastaccessed>
+<addedtofile><datetime>20170202T162338,18-05</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Devin Olson/O=Demo</name></updatedby>
+<wassignedby><name>CN=Devin Olson/O=Demo</name></wassignedby>
 <item name="$Flags"><text>34567Cg~[</text></item>
 <item name="$TITLE"><text>com/bacon/model/Actor.java</text></item>
-
-
-
 <item name="$DesignerVersion"><text>8.5.3</text></item>
 
 
 <item name="$FileNames" sign="true"><text>com/bacon/model/Actor.java</text></item>
+
+
+
 
 </note>
