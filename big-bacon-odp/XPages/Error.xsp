@@ -14,12 +14,12 @@
 		permissions and limitations under the License
 	-->
 
-	<xe:applicationLayout id="applicationLayout1">
-		<xe:this.configuration>
-			<xe:simpleResponsiveConfiguration
-				fixedNavbar="fixed-top" navbarText="${javascript:database.getTitle()}">
-			</xe:simpleResponsiveConfiguration>
-		</xe:this.configuration>
+<!--	<xe:applicationLayout id="applicationLayout1">-->
+<!--		<xe:this.configuration>-->
+<!--			<xe:simpleResponsiveConfiguration-->
+<!--				fixedNavbar="fixed-top" navbarText="${javascript:database.getTitle()}">-->
+<!--			</xe:simpleResponsiveConfiguration>-->
+<!--		</xe:this.configuration>-->
 		<xp:panel>
 			<xp:text escape="true" id="computedField1"
 				value="We hit an error. Check server console for details.">
@@ -55,5 +55,5 @@
 				style="display:none">
 			</xp:text>
 		</xp:div>
-	</xe:applicationLayout>
+<!--	</xe:applicationLayout>-->
 </xp:view>
