@@ -30,25 +30,37 @@ public class GraphUI implements Serializable {
 
 	@SuppressWarnings("unchecked")
 	public String getActorsWithKey(final String value) {
-		System.out.println("Getting actors");
-		final ArrayList<String> keys = new ArrayList();
-		keys.add("Name");
-		final ArrayList<String> vals = new ArrayList();
-		vals.add(value);
-		final Iterable<Actor> actorIterable = GraphUtil.getGraphInstance().getFilteredElementsPartial("com.bacon.model.Actor", keys, vals);
-		final TreeSet<String> names = new TreeSet<String>();
-		int count = 0;
-		for (final Actor actor : actorIterable) {
-			names.add(actor.getName());
-			count++;
-			if (count > 500) {
-				System.out.println("Loaded another 500 actors...");
-				count = 0;
+		String method = "getActorsWithKey()";
+		System.out.println(method + " key: " + value);
+		String result = "";
+		try {
+			final ArrayList<String> keys = new ArrayList();
+			keys.add("Name");
+			final ArrayList<String> vals = new ArrayList();
+			vals.add(value);
+			final Iterable<Actor> actorIterable = GraphUtil.getGraphInstance().getFilteredElementsPartial("com.bacon.model.Actor", keys,
+					vals);
+			final TreeSet<String> names = new TreeSet<String>();
+			int count = 0;
+			for (final Actor actor : actorIterable) {
+				names.add(actor.getName());
+				count++;
+				if (count > 500) {
+					System.out.println("Loaded another 500 actors...");
+					count = 0;
+				}
 			}
+
+			System.out.println("Loaded actors");
+			result = StringUtils.join(",", names.iterator());
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		System.out.println("Loaded actors");
-		return StringUtils.join(",", names.iterator());
+		System.out.println(method + ": " + result);
+		return result;
+		// return StringUtils.join(",", names.iterator());
 	}
 
 
